@@ -1,0 +1,50 @@
+* automatiser le deploiment et execution des applis grace au conteneurs.
+* pour les applications packages sous forme d'image de machine virtuelle, IAAS offre des services d'infrastructure comme le stochake, le reseau securite
+elle beneficie des resources dont elle a besoin grace aux service d'infrastructure => detecter une faille materielle et assurer que l'env exec est tjrs actif
+ex: si une machine tombe, image de machine virtuelle sera deplacé sur un autre hote.
+* IAAS ofrre une methose simple pour gerer la montee de charge par exemple redimensionner la RAM et la CPU ou le disque, aussi elle automatise la gestion de l'infra: tout se passe par config
+ mais elle n'apporte aucune solution pour le deploiement de l'application, il y a tjrs rique d eperte d'info entre le developpeur et l'expoliatant
+
+* Containers as a service (CaaS) is a form of container-based virtualization in which container engines, orchestration and the underlying compute resources are delivered to users as a service from a cloud provider
+
+* avec une approche CAAS, la phase de preparation d'env et deploiement sont indistinctes, l'image contient l'ev d'execution ainsi que le code de l'application.
+* l'infra est seulement un moteur de conteneurs.
+* il y a des regles de gestion pour le deploiment de solutions CAAS,  * nbr instances, liens entr conteneurs, montee de charges, regles de repartition de charges = > programmer l'infra
+
+* The key difference between providers' CaaS offerings is typically the container orchestration platform, which handles key tasks, such as container deployment, cluster management, scaling, reporting and lifecycle management. CaaS providers can use a variety of orchestration platforms, including Google Kubernetes, Docker Machine, Docker Swarm.
+* les solutions CAAS fournissent des fonctions de clustering et orchestration.
+* elle s'appuient sur une gestion automatisé de l'infra, ele garantissent un etat stable du systeme grace a des process automatiques.
+* surveiller etat, detecter les ecarts par rapport aux regles et agir pour ramener le systeme à l'équilibre.
+
+* voir page 47.(controlleur, agents , CLI)
+exepmle: le configurateur a declaré 5 instances d'un conteneur, mais un agent a détécté qu'il ya seulement 4, l'agent informe le controleur, le controleur va  automatiquement declencher une nouvelle
+ creation
+
+* DCOS: systeme expolitation mais à l'echelle plus grand, a l'echelle du data center.
+
+* les soluions CAAS:
+* kubernetes
+
+kubernetes Control Plane est le controleur chef d'orchestre et sotocke la conf.
+* chaque noeud contient un agent kubeletes: controlent le cycle de vie des conteneurs et surveillent leur etat.
+* les pods regroupent des conteneurs qui sont lies ensemble, exepmle des conteneurs qui offrent un micro-service.
+* les proxys jonet le role du registry, ils localisent tous les pods du cluster. un pod n'a pas besoin de connaitre la localisation d'un autre pod, il interroge le proxy et le proxy fait le routing.
+
+2.3 Lien avec Ansible
+* se base sur des DSl pour declarer la conf cible sur un hote (config OS, installation et config de logiciels, gestion de services, execution de commandes)
+=> remplacer les scripts par une bibliotheque d'actions utulisant un seul langage
+* ils facilitent le deploiment et l'integration continue
+* surtout automatiser la conf sur tout un cluster	
+* Ansible: requiert pas un agent : s'appuie sur une bibliotheque de modules.
+playbooks sont les descripteurs de conf.
+* inventory contient la liste des hotes cibles organises par groupe
+* all pour attaquer toutes les machines, ou groupe pour un groupe donné
+
+* un playbook decrit l'état cible souhaité.
+* Ansible se conncete vis SSH sur l'hote cible.
+* c'est pas un script a executer mais on decrit l'etat danslequel le serveur sera, si qq choose qu'on decrit existe deja, ansible n'execute pas la commande.
+* on peut utuliser Ansible pour installer Docker => ils sont complementaires
+* Ansible dispose d'un playbook Docker
+* Ansible va gerer le cycle de vie du conteneur depuis le chargement jusqu'a creation et demarrage: on aura plus besoin de lancer manuellement ces commandes.
+
+*

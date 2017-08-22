@@ -1,0 +1,52 @@
+
+* docker se base sur une virualisation coté applicatif => tres leger, demarre rapidement
+
+* on peut installer les conteneurs sur une VM pour garantir la compatibilté avec les OS
+
+* docker se base sur LXC(driver linux qui fait le pont entre le moteur d'execution des conteneurs et le l'OS), docker ont implemente leur propre driver libcontainer.
+
+* pour faire marcher docker sur Windows nativement, microsoft a du réécrire ce driver. Mnt pour faire marcher sur Windows, il faut installer une machine virtuelle.
+
+
+quels sont les services Linux surlequels se base LibContainer ?
+
+*  CGroups: control groups: permet de partitionner les resources(processeur, memoire) d'un hote => controler la consommation des resources par process 
+*  CGroups permer de repartir la puissance de calcul et la memoire entre les process => garantir une bonne repartition
+
+* Namespaces: 
+* ils permettent de faire en sorte qu'un process ne voit pas les resources utulises par un autre => isolation des conteneurs
+* chroot: changer pour un process le repertoire racine du systeme => securite, empecher de naviger dans des sections dy systeme dont il doit pas utuliser.
+* namespace etend ce concept a d'autres resources comme le network ...
+
+Un conteneur est un file system sur lequel s'execute des processus:
+* contrainte par CGroups qui definit bien les limites en termes de resources.
+* bien isole grace a namespaces, les conteneurs ne se voient pas.
+
+
+Apports de docker:
+* docker optimse la taille des conteneeurs en favorisant la mutualisation des donness, ainsi que la persistance des donness via les volumes.
+
+* Image: 
+* un conteneur est file system, mais d'ou viennet ces fichiers? on peut construire un conteneur en creeant  un repertoire qui stocke les fihiers specefiques d'un conteneur mais comment la distrinuer et la
+reeutiliser. les images sont des archives qui peuvent etre interchanges et reeutulises.
+* la reutulisation est possible grace a l'organisation ne couches.
+
+
+* un conteneur est un empilement ordonne d'images, chaque couche surcharge la precedente en apportant des ajouts et des modifs.
+* c'est un file system particulier nomme Union File System. les images elle memes sont reutulisables.
+* dans exemple, les 2 conteneur parthagent les images centos et JDK. le systeme charge des couches successives qui sont des blocs reutilisbles.
+
+* DockerHub:
+
+* le registry est le repo d'images. pull pour recuperer et push pour y mettre une image.
+* il y a un cache local pour les images comme le cas d'un repo local.
+* le container layer est la couche au dessus de toutes les autres, elle est en mode lecture ecriture. elle est alloue a chaque instance de l'image.
+* les images de base sont immutables, une ecriture se fait au niveau du container layer.
+* lorsque une modification est demandé sur une image, le fichier original est copié et la nouvelle version surcharge la version de l'image de base.
+* le container layer ne comprend que le differentiel avec l'image de base.
+* si on arrete le container, on perd le container layer, toutes les modifs qu'on a faites seront perdus.
+=> les volumes sont des espaces de donnees qui court-circuitent l'UNION FILE SYSTEM. ils sont modifies directement et survivent entre deux executions.
+* le voilume est un repertoire de l'hote qui sera monté dans le container et qui permet de faire un pont entre l'hote et le container.
+* les bonnes pratiques exigenet processu spar container, une application sera répartie sur plusieurs containers.
+* composition via docker compose: definir tous ls containes, ordre de démarrage ainsi que les liens entre tous les containters.
+* 

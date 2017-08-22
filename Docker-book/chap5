@@ -1,0 +1,48 @@
+* cycle de vie: run = create + start(create le met dans l'etat STOPPED, et run dans l'etat RUNNING)
+rm: destroy an image
+stop & kill : revenir a etat STOPPED
+
+* -p8000:80: le port 80 du serveur web ouvert a l'interieur du container sera expose sur le port 8000 de l'hote.
+* -d: conteneur en mode demon: non bloquant. sans ce param, la ligne de commande sera bloque et affiche les logs.
+* l'image sera telechargee dans la 1 ere execution de la commande. => image sera stocke dans le registry locale de la machine.
+* pas de grande difference entre kill et stop: 
+* docker ps: liste tous les conteneurs
+ * Command: la command execute dans le conteneur.
+ * ports: tous ls ports utulises et comment sont mappes.
+* docker stop suivi par l'id: stoppe le conteneur: le servuer nginx est eteint.
+* Apres un stop, est ce que le conteneur est definitivement perdu? => non, l'image complemente de la chouche persistante read/write propre aux conteneurs est stocke dans le systeme.
+/var/lib/docker/containers : repertoire de stockage des containers
+* ps -a : pour afficher tous les conteneurs: actifs et stopped
+* docker start ident: le serveur est de nouveu up.
+* docker rm idconteneur: detruit le conteneur, detruit le repertoire de la chouche persistante read/write, ps -a ne l'affiche plus et le repertoire est supprimé.
+* create cree un conteneur inactif dans le statut CREATED, start pour le mettre en RUNNING.
+* exec permet de demarrer un process dans un coneteneur actif, -i associer le nouveau terminal au flux d'entree STDIN , -t : a un pseudo terminal.
+* modifier la page index.html => Apres destrcution du conteneur, on perd les modifications.
+* les volumes sont le moyen qu'offre Docker pour gerer la persistance des donnees au sein des conteneurs et en relation avec machine hote.
+* docker inspect id: donne des infos sur le conetenur
+    Source: repertoire sur l'hote, des: chemein dans le conteneur.
+    driver: il est possible d'utuliser +eurs drivers pour gerer les volumes en offrant un stockage des donnes sur diferents hotes pas uniquement le systeme hote.
+* l'acces au systeme fichier docker requiert les droits root
+* il est possible de monter un repertoire de l'hote dans le conteneur.
+* docker run -d -p 8000:80 -v /home/thales/dev/docker-tmp:/usr/share/nginx/html  nginx
+* voir avec inspect les ports qui sont mappes: 80 du coneteneur mappe sur 8000 de l'hote.
+* 0.0.0.0 adresse par defaut a laquelle docker attache le port ouvert sur l'hote
+* -P: on laisse Docker choisir le port au hasard.
+* qui a defini que le conteneur peut gerer le port 80? qui a defini le volume .... qui est présent par défaut.
+* docker images: lister les images.
+* -a: liste aussi les images intermediares
+* rmi: supprime une image, il faut pas des conteneurs actifs pour cette image.
+* docker pull, recuperer une image a partir du hub: pull nginx:1.7
+* --name pour donne run nom au conteneur
+* commit nom_du_conteneur nom de l'image: cree une image qui porte les modifs faites au conteneur
+=> une mauvaise pratique, il faut utuliser le dockerfile. utulise que pour des besoins de debug
+* le pb est qu'on decrit pas comment on construit l'image pourtant qu'elle peut etre distribue: la recette pour la creer n'est pas normalisé
+* Ecrire notre propre DockerFile
+* exemple: docker build -t nginxhello .
+* docker run -d -p 8000:80 nginxhello
+* FROM: on va crerr notre image  a partir de l'iamde de base
+* l'instruction COPY est l'application de la notion d'images en couches: on modifie pas l'image de base nginx mais on ajoute notre fichier par dessus, via le concept d'UNION FILE SYSTEM,
+le file system resultat prend en compte notre fichier et non pas le fichier original.
+* dans les logs de docker build, on voit l'id de notre image nginx
+* docker history nginxhello : l'ensemble des couches d'une image donnée.
+* 

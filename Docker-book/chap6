@@ -1,0 +1,47 @@
+* les options commencent par - si c'est une lettre et avec -- si c'est un nom. expl: -i, --name
+* run -i= run -i=true (les boolan sont false par defaut)
+* valeur sipmle: peut etre declare une seule fois dans la commande : -m 5M
+* valeur multiiple comme -px:y -p z:t : le mapping du port peut etre multiple car on a +eurs ports a mapper.
+* pour etre conforme avec unix, ne pas utuliser= pour donner l avaleur d'une option, utuliser l'espace
+* docker info: des infos generales
+* docker stats: des infos en temps reel sur les conteneurs executes
+* docker ps: affiche tous les conetneurs actifs, avec un -a tous les conteneurs actifs et inactifs.
+* docker rm $(docker ps -a -q): supprimer tous les conteneurs
+* docker events: liste les evenements qui se produisent sur le bus d'evenements Docker
+* tous les commandes du client docker peuevent etre traduites en REST
+* docker inspect: donne des metadonnes relatives a une image ou un conteneur
+* docker wait vs docker stop: stop rend la main directement a a laigne de commande alors que wait attend jusqu' a le conteneur arrete( utile pour faire des actions que si le conteneur est arrete)
+* docker update: modifier les resources alloues auconteneurs, non les parametres du volume ou reseau
+* run = create + start
+* run
+ * --entrypoint: surcharger l'instruction entrypoint du dockerfile
+ * -t et -i : pour ouvrir un terminal dans le conteneur
+ * -d qui est le contraire de -i: lance le conteneur en mode demon
+ * --priviliged: lancer le conteneur avec toutes les permissions du root, le conteneur peut faire ce qu epeut faire l'hote
+ * --rm: detruire le conteneur automatiquent quand il sera stoppé
+ * --name: donner un nom au conteneur
+* docker logs: affiche les logs du conteneur: affcihe ce qui ecrit dans le STDOUT du processus racine(-- tail ou --f)
+* docker exec: permet d'executer une commande à l'interieur d'un conteneur demarré: docker exec -i -t webserver /bin/bash
+* docker attach: s'attacher a un conteneur démarré pour visualiser et interagir avec le process racine du conteneur
+* docker attach webserver: permet de visualiser les logs
+* docker cp : copier un fichier entre un conteneur démarré et le systeme de fichier hote. docker cp webserver:/usr/share/index.html   .: copier index.html du conteneur dans le repertoire courant
+* docker diff: visulaiser les changements effectues sur les fichiers d'un conteneur
+* docker top: affiche le resultat d'un top effectue dans le conteneur
+* docker export: exporter l'ensemble du systeme de fichiers dun container dans un fichier tar
+* docker port: voir les ports exposes par le conteneur
+* docker build: cree une image a partir d'un dockerfile, -t pour creer un tag, -f pour un nome de dockerfile different, -rm pour supprimer les images intermediares
+* docker commit
+* docker history: visualiser les differentes couches d'une image
+* docker rmi pour supprimer une image
+exemple: docker rmi $(sudo docker images -f "dangling=true" -q): supprime les images depourvus de ce nom: image a ete construite mais une autre image a pris ce nom: ca arrive en phase de dev
+* docker save centos:7 > centos.tar: save l'image dans un tar
+* docker load -i=centos.tar: cree l'image a partir du tar
+=> transferer des images entre des hotes sans passer par un registry
+* docker login --username --password server : s'authentifier aupres d'un registry docker
+* docker push NAME[:TAG]: pusher une image vers un registry
+* docker pull NAME[:TAG]: cette commande est lancee implicimetement dans un create ou un run si l'image n'est pas dans le registry local
+* docker search: chercher une image dans le registry
+* docker tag:creeu un nom alternatif pour une image
+* reseau et volumes???
+
+* 

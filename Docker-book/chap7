@@ -1,0 +1,73 @@
+* RUN permet d'executer des commandes utulises pour construire l'image
+* il y a les 2 formats: terminal et execution: preferer le format terminal plus simple a ecrire
+* pour ecrire les commandes sur +eurs lignes, il faut que chaque ligne se termine par antislash \
+* RUN yum install -y httpd: -y pour forcer l'action et ne pas demander avis utulisateur.
+* pour garantir un etat coherent de l'image: le meme resultat n'importe quelle machine surlaquelle on execute le build, il faut faire un yum update
+* il faut tjr faire yum  update -y suivie de yum install et ne jamais faire l'update dans une ligne separée => pb de cache docker locale, si le yum update dans une ligne separee, le cache docker va considerer que yum update a ete deja fait et va pas le reexuter: voir exemple.
+
+CMD
+* permet d'executer une commande au demarrage du conteneur resulatnat.
+* cette instruction n'est pas joue lors de la construction de l'image, mais bien lors de l'execution du conteneur 
+* il faut avoir 1 seule instruction CMD dans un dockerfile
+* il y a 3 modeles pour CMD: le 1er terminal, le 2 eme execution, et le 3 eme sans executable.
+* le 3 eme modele doit etre combinee avec un ENTRYPOINT
+* voir exemplepage 173 : entry point contient ping -c 5 et CMD conteient [localhost]
+* l'instruction CMD represente uniquement le parametre decrivant la destination de ping
+* docker run my-ping-cmd ls: va executer ls au lieu du ping: surcharger CMD
+* docker run --entrypoint ls my-ping-entrypoint : surcharger entrypoint
+=> plus siple de surcharger CMD que entrypoint
+* docker run my-ping google.com: on a laissé l'entrypoint et on a surchargé le CMD avec google.com => exemple ou combiner CMD et entrypoint devient utile
+
+ENTRYPOINT:
+* elle permet comme la commande CMD d'executer une commande au demarrage du conteneur
+* cette instruction n'est pas joue lors de la construction de l'image, mais bien lors de l'execution du conteneur 
+* il faut avoir 1 seule instruction ENTRYPOINT dans un dockerfile
+* si ENTRYPOINT au format execution et on a un CMD, le contenu de CMD sera rajoute a la fin de ENTRYPOINT
+* si ENTRYPOINT au format terminal et on a un CMD, le contenu de CMD sera ignoré
+* il y a 2 modeles pour ENTRYPOINT: le 1er terminal, le 2 eme execution
+* --entrypoint surcharge l'entrypoint du conteneur
+* --rm permet de supprimer le conteneur des qu'il se termine
+  * le nom sera libéré et sera reutulisable par un autre conteneur
+  * si le conteneur est sateless et ne demarre aucun service, sa suppression permet un gain d'espace
+* pour le format execution: si on fait un docker ps: la commande qui sera affiche est ping google.com
+* docker exec permet d'executer une commande dans un conteneur actif
+* pour le format execution: si on fait un docker ps: la commande qui sera affiche est /bin/sh -c "ping google.com"
+
+
+EXPOSE
+* decrit les ports que le conteneur ecoute
+* un port exposé doit etre mappe soit manuellment soit automtiquement avec un port de la machine
+* EXPOSE 80
+* docker run -P: mappage automatique: docker choisira les pors de l'hote, docker ps va les afficher
+* manuelle: -p[port hote]:[port conteneur]
+* on peut avoir +eurs options -p pour un docker run
+* Dans le cas de mapping manuel, EXPOSE n'est plus utulise formellement , elle devient informelle, elle permet une lecture rapide et aisée des ports que le conteneur expose
+* docker inspect sur une image permet de montrer les ports exposes de l'image
+
+ADD
+* permet d'ajouter un fichier dans l'image
+* ADD src dest
+* le fichier src doit etre dispobible dans le hote qui construit l'image
+* eviter que le src soit une URL, preferer RUN wget ou RUN curl
+* le dossier courant de la machine est le repertoire en parametre du docker build. le . specifie apres un docker build
+* le chemin courant dans le conteneur est le "/"
+* ATTENTION: faire un RUN mkdir output suivi de ADD test1 ./ : ne va pas rajouter le fichier test 1 dans le dossier output, mais il sera dans le chemin courant du conteneur
+=> chaque instruction est execute de maniere independante dans le but de creer des images intermediares pour le systeme de cache
+* RUN cd outpout suivi par RUN pwd affiche / et non pas output
+* si on met le src entre "", on est tolerant pour les espaces dans les chemins , bien que c'est une mavase pratique
+* ADD decompresse automatiquent les archives alors que COPy ne le fait pas
+* ADD test1 /tmp/output :test1 sera depose dans tmp avec nouveau nom output
+* ADD test1 /tmp/output/ : test1 sera depose dans  /tmp/output
+
+COPY
+* meme que add sauf (chemins courants, / a la fin de destination)
+  * src doit etre un fichier local et pas une URL
+  * ne decomprese pas
+* ADD et COPY peuvent ajouter +eurs fichiers dans l'image dans 1 seul coup , or c'est pas une bonne pratique
+* autant de fichiers, autant de ADD
+* expication: si au moins un fichier source est modifie, l'instruction sera considere comme change et sera donc rejoue => le cache ne sera pas utulise
+* l'exemple montre que si on met +eurs fichiers source dans le ADD, si 1 seul parmi eux est modifierr, toute l'instruction sera rejoué alors que si chaque ADD porte sur 1 seul fichier,
+seulement le fichier modifiee sera rejoue et on utulisera le cache au max
+
+* Volume
+*  

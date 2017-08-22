@@ -1,0 +1,81 @@
+ENV
+  * permet de creer ou mettre a jour +eurs variables d'environnements 
+  * le conteneur a access a toutes les variables d'environnements declarres dans le dockerfile
+  * ENV name value ou ENV name=value .. pour creer +eurs variables d'environnements
+  * preferer la 2 eme version en cas de plusieurs variables pour produire qu'une seule couche de cache de l'image
+  * possible de surcharger la valeur au moment du run
+  * utuliser ENV pour modifier le PATH
+  * docker inspect pour voir tous les var.env d'un conteneur: voir page 200
+
+LABEL:
+  * permet d'ajouter des metedonnes sur une image: c'est comme une description de l'image
+  
+WORKDIR
+  * permet de changer le chemin courant pour RUN CMD ENTRYPOINT COPY et ADD
+  * lorsque un conteneur est demarre, le chemein courant du conteneur est celui de WORKDIR
+  * le chemin de WORDIR doir etre tjrs tjrs absolu(a partir du home),pcq le workdir aurait pu etre change par une image parente
+  * l'effet de WORKDIR s'applique aux images enfants
+  * dans une instruction WORKDIR, on ne peut utulser que les var.env dclares dans le meme DockerFile
+
+USER
+  * permet de definir l'utulisateur qui execute les commandes issus de RUN CMD ENTRYPOINT
+  * User aymen : vaut mieux avoir 1 seule instruction USER dans le docker file
+  * une image non finale ne contiendra pas USER
+  * les instructiion RUN seront executes en tant que ROOT, apres on specifie un utilisateur afin d'assurer que le process actif du conteneur n'est pas execute en root
+  * exemple: USER aymen et apres on assaye de faire CMD /bin/top(seuls root peut le faire): on a un a permission denied dans le run du conteneur
+  * RUN chown myuser:mygroup /bin/top: dans ce cas le conteneur affiche bien les process actifs car myuser a les droits de les lancer
+  * docker inspect pour voir le USER courant du conteneur
+  * on doit pas avoir des commandes avec SUDO( voir page 206)
+
+
+ARG
+  * permet de definir des arguments passes comme parametre lors de la construction de l'image
+  * les args ne peuvent etre utulises que dans RUN, ADD, COPY, USER
+  * ARG name=defaultvalue
+  * RUN echo $var1 ou var1 est un ARG
+  * l'assignation des arguments definis par ARG se fait par l'option --build ARG=value
+  * c utulise au moment de docker build: construction de l'image
+  * les optios qu'on passe par --build doivent etre declares dans le docker file
+  * la portee des variables definies par ARG ne s'etend pas au conteneur => echo $var1 n'affiche rien dans l'execution du conteneur
+  * ENV surcharge ARG si une variable.env et un ARG portent le meme nom
+  * si on souhaite agir sur les images et les conteneurs associes, utuliser ENV
+  * si on souhaite agir uniquement la construction de l'image, utiliser ARG
+  * la surcharge de ARG se fait au moment de build  
+  * la surcharge de ENV se fait au demarrage de conteneur: docker run
+  * si une variable env est utulise lors de la construction , et si on la surcharge au moment de l'execution => pb de consistance
+  * => une var.env qui peut etre surchargee au moment de l'execution, ne doit pas utulise par des instructions de construction de l'image
+  * voir la liste des args par defaut de docker
+
+ONBUILD
+  * on definit une instruction qui sera execute seulement par l'image enfant.
+
+STOPSIGNAL
+  * permet de definir le signal a executer lors de l'arret d'un conteneur
+  * un signal est une information impactant un process par exemple son arret immediat.
+  * le process de PID 1 est le process qui va interpreter le signal decrit par STOPSIGNAL
+
+Securite
+  * securiser l'API Rest qui est derriere les operations par terminal.
+  * Docker content trust: permet de signer une image et la verifier dans le registry.
+  * 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
