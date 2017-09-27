@@ -1,9 +1,34 @@
+* un modele d'instruction decrit comment une instruction doit etre utilise
+* Pour chaque instruntion, il y a 1 -> * modeles
+* Pour CMD et ENTRYPOINT: il faut comprendre les modeles terminal et execution et quand utuliser chacune
+* terminal: CMD ping localhost => /bin/sh -c "ping localhost"
+* execution: CMD["ping","localhost"] => ping localhost
+* dans le cas terminal, le binaire /bin/sh doit etre disponible dans l'image
+* pour terminal , l'arret du conteneur avec docker stop n'entrane pas direcetement l'arret du process lancé par /bin/sh
+* /bin/sh a le PID 1, c'est ce process qui est stoppé et non le process lance par ce /bin/sh
+* le format exec permet d'executer un binaire sans intermediare ,  CMD["ping","localhost"] sera execute par ping localhost
+* voir tableau 7.2, si le process s'arrte apres son execution comme ls, preferer terminal.
+* les commentaires par #
+
+FROM
+* permet de specicifier l'image parente a utuliser
+* l'image resutat sera basé sur cette image a laquelle seront ajoutes les blocs d'images produits par les instructions du dockerfile
+* FROM centos:7
+* FROM est obligatoire et doit etre au debut
+* un docker file peut contenir +eurs FROM mais c'est une mauvaise pratique: doit contenir 1 et 1 seule FROM
+* si on specicifie pas la version , la derniere latest qui sera utulise et ce qui peut faire des pbs
+* des instructions peuvent ne plus etre supportes par les nouvelles versiosn de l'image comme l'install de certains paquets
+* Dans FROM, il faut tjrs specifier la version
+MAINTENIER
+* renseigne le champ AUTHOR de l'image
+* peut etre visible en faisant un inspect
+
 * RUN permet d'executer des commandes utulises pour construire l'image
 * il y a les 2 formats: terminal et execution: preferer le format terminal plus simple a ecrire
 * pour ecrire les commandes sur +eurs lignes, il faut que chaque ligne se termine par antislash \
 * RUN yum install -y httpd: -y pour forcer l'action et ne pas demander avis utulisateur.
 * pour garantir un etat coherent de l'image: le meme resultat n'importe quelle machine surlaquelle on execute le build, il faut faire un yum update
-* il faut tjr faire yum  update -y suivie de yum install et ne jamais faire l'update dans une ligne separÃ©e => pb de cache docker locale, si le yum update dans une ligne separee, le cache docker va considerer que yum update a ete deja fait et va pas le reexuter: voir exemple.
+* il faut tjr faire yum  update -y suivie de yum install et ne jamais faire l'update dans une ligne separée => pb de cache docker locale, si le yum update dans une ligne separee, le cache docker va considerer que yum update a ete deja fait et va pas le reexuter: voir exemple.
 
 CMD
 * permet d'executer une commande au demarrage du conteneur resulatnat.
@@ -16,18 +41,18 @@ CMD
 * docker run my-ping-cmd ls: va executer ls au lieu du ping: surcharger CMD
 * docker run --entrypoint ls my-ping-entrypoint : surcharger entrypoint
 => plus siple de surcharger CMD que entrypoint
-* docker run my-ping google.com: on a laissÃ© l'entrypoint et on a surchargÃ© le CMD avec google.com => exemple ou combiner CMD et entrypoint devient utile
+* docker run my-ping google.com: on a laissé l'entrypoint et on a surchargé le CMD avec google.com => exemple ou combiner CMD et entrypoint devient utile
 
 ENTRYPOINT:
 * elle permet comme la commande CMD d'executer une commande au demarrage du conteneur
 * cette instruction n'est pas joue lors de la construction de l'image, mais bien lors de l'execution du conteneur 
 * il faut avoir 1 seule instruction ENTRYPOINT dans un dockerfile
 * si ENTRYPOINT au format execution et on a un CMD, le contenu de CMD sera rajoute a la fin de ENTRYPOINT
-* si ENTRYPOINT au format terminal et on a un CMD, le contenu de CMD sera ignorÃ©
+* si ENTRYPOINT au format terminal et on a un CMD, le contenu de CMD sera ignoré
 * il y a 2 modeles pour ENTRYPOINT: le 1er terminal, le 2 eme execution
 * --entrypoint surcharge l'entrypoint du conteneur
 * --rm permet de supprimer le conteneur des qu'il se termine
-  * le nom sera libÃ©rÃ© et sera reutulisable par un autre conteneur
+  * le nom sera libéré et sera reutulisable par un autre conteneur
   * si le conteneur est sateless et ne demarre aucun service, sa suppression permet un gain d'espace
 * pour le format execution: si on fait un docker ps: la commande qui sera affiche est ping google.com
 * docker exec permet d'executer une commande dans un conteneur actif
@@ -36,12 +61,12 @@ ENTRYPOINT:
 
 EXPOSE
 * decrit les ports que le conteneur ecoute
-* un port exposÃ© doit etre mappe soit manuellment soit automtiquement avec un port de la machine
+* un port exposé doit etre mappe soit manuellment soit automtiquement avec un port de la machine
 * EXPOSE 80
 * docker run -P: mappage automatique: docker choisira les pors de l'hote, docker ps va les afficher
 * manuelle: -p[port hote]:[port conteneur]
 * on peut avoir +eurs options -p pour un docker run
-* Dans le cas de mapping manuel, EXPOSE n'est plus utulise formellement , elle devient informelle, elle permet une lecture rapide et aisÃ©e des ports que le conteneur expose
+* Dans le cas de mapping manuel, EXPOSE n'est plus utulise formellement , elle devient informelle, elle permet une lecture rapide et aisée des ports que le conteneur expose
 * docker inspect sur une image permet de montrer les ports exposes de l'image
 
 ADD
@@ -66,8 +91,26 @@ COPY
 * ADD et COPY peuvent ajouter +eurs fichiers dans l'image dans 1 seul coup , or c'est pas une bonne pratique
 * autant de fichiers, autant de ADD
 * expication: si au moins un fichier source est modifie, l'instruction sera considere comme change et sera donc rejoue => le cache ne sera pas utulise
-* l'exemple montre que si on met +eurs fichiers source dans le ADD, si 1 seul parmi eux est modifierr, toute l'instruction sera rejouÃ© alors que si chaque ADD porte sur 1 seul fichier,
+* l'exemple montre que si on met +eurs fichiers source dans le ADD, si 1 seul parmi eux est modifierr, toute l'instruction sera rejoué alors que si chaque ADD porte sur 1 seul fichier,
 seulement le fichier modifiee sera rejoue et on utulisera le cache au max
 
 * Volume
-*  
+* permet de creer un point de montage dans l'image, ce dernier se refere a un dossier dans l'hote
+* les donnes dans le volume seront persistes pcq qu'il referent a un dossier dans l'hote
+* le dossier data du conteneur peut etre vu comme un lien vers le dossier data de l'hote
+* utiliser docker inspect pour voir les volumes montes et pour voir a quels dossiers correspondent de la machine hote
+* docker exec volume-conteneur /bin/sh -c 'echo "hello" > /tmp/data/helloTest'
+* docker exec volume-conteneur ls /tmp/data : affiche helloTest
+* sudo ls /var/lib/docker/volumes/ dddd : affiche helloTest
+* le volume est supprme de la machine hote apres un rm
+* -v pour choisir le repertoire du mapping dans la machine hote
+* si on utulise l'option -v, l'instruction VOLUME devient inutile
+* preferer de prefixer tjrs le path du volume par un /
+
+Bonne pratiques
+
+* pour CMD et ENTRYPOINT: utuliser le format execution afin d'assurer un arret propore du conteneur
+* RUN: preferer le format terminal
+* FROM: doit etre la 1 ere et avec la version
+* RUN: utuliser 1 seule instruction RUN, utiliser des retours a la ligne avec \
+* voir reste page 194 
