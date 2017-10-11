@@ -12,7 +12,8 @@
 
 FROM
 * permet de specicifier l'image parente a utuliser
-* l'image resutat sera basé sur cette image a laquelle seront ajoutes les blocs d'images produits par les instructions du dockerfile
+* l'image resutat sera basé sur cette image a laquelle seront ajoutes les blocs d'images produits
+par les instructions du dockerfile
 * FROM centos:7
 * FROM est obligatoire et doit etre au debut
 * un docker file peut contenir +eurs FROM mais c'est une mauvaise pratique: doit contenir 1 et 1 seule FROM
@@ -28,7 +29,9 @@ MAINTENIER
 * pour ecrire les commandes sur +eurs lignes, il faut que chaque ligne se termine par antislash \
 * RUN yum install -y httpd: -y pour forcer l'action et ne pas demander avis utulisateur.
 * pour garantir un etat coherent de l'image: le meme resultat n'importe quelle machine surlaquelle on execute le build, il faut faire un yum update
-* il faut tjr faire yum  update -y suivie de yum install et ne jamais faire l'update dans une ligne separée => pb de cache docker locale, si le yum update dans une ligne separee, le cache docker va considerer que yum update a ete deja fait et va pas le reexuter: voir exemple.
+* il faut tjr faire yum  update -y suivie de yum install et ne jamais faire l'update dans une ligne separée
+ => pb de cache docker locale, si le yum update dans une ligne separee,
+ le cache docker va considerer que yum update a ete deja fait et va pas le reexuter: voir exemple.
 
 CMD
 * permet d'executer une commande au demarrage du conteneur resulatnat.
@@ -41,7 +44,8 @@ CMD
 * docker run my-ping-cmd ls: va executer ls au lieu du ping: surcharger CMD
 * docker run --entrypoint ls my-ping-entrypoint : surcharger entrypoint
 => plus siple de surcharger CMD que entrypoint
-* docker run my-ping google.com: on a laissé l'entrypoint et on a surchargé le CMD avec google.com => exemple ou combiner CMD et entrypoint devient utile
+* docker run my-ping google.com: on a laissé l'entrypoint et on a surchargé le CMD avec google.com 
+=> exemple ou combiner CMD et entrypoint devient utile
 
 ENTRYPOINT:
 * elle permet comme la commande CMD d'executer une commande au demarrage du conteneur
@@ -66,7 +70,8 @@ EXPOSE
 * docker run -P: mappage automatique: docker choisira les pors de l'hote, docker ps va les afficher
 * manuelle: -p[port hote]:[port conteneur]
 * on peut avoir +eurs options -p pour un docker run
-* Dans le cas de mapping manuel, EXPOSE n'est plus utulise formellement , elle devient informelle, elle permet une lecture rapide et aisée des ports que le conteneur expose
+* Dans le cas de mapping manuel, EXPOSE n'est plus utulise formellement , elle devient informelle,
+elle permet une lecture rapide et aisée des ports que le conteneur expose
 * docker inspect sur une image permet de montrer les ports exposes de l'image
 
 ADD
@@ -76,7 +81,8 @@ ADD
 * eviter que le src soit une URL, preferer RUN wget ou RUN curl
 * le dossier courant de la machine est le repertoire en parametre du docker build. le . specifie apres un docker build
 * le chemin courant dans le conteneur est le "/"
-* ATTENTION: faire un RUN mkdir output suivi de ADD test1 ./ : ne va pas rajouter le fichier test 1 dans le dossier output, mais il sera dans le chemin courant du conteneur
+* ATTENTION: faire un RUN mkdir output suivi de ADD test1 ./ : ne va pas rajouter le fichier test 1 dans le dossier output,
+mais il sera dans le chemin courant du conteneur
 => chaque instruction est execute de maniere independante dans le but de creer des images intermediares pour le systeme de cache
 * RUN cd outpout suivi par RUN pwd affiche / et non pas output
 * si on met le src entre "", on est tolerant pour les espaces dans les chemins , bien que c'est une mavase pratique
@@ -85,16 +91,18 @@ ADD
 * ADD test1 /tmp/output/ : test1 sera depose dans  /tmp/output
 
 COPY
-* meme que add sauf (chemins courants, / a la fin de destination)
+* meme que add (chemins courants, / a la fin de destination)
   * src doit etre un fichier local et pas une URL
   * ne decomprese pas
 * ADD et COPY peuvent ajouter +eurs fichiers dans l'image dans 1 seul coup , or c'est pas une bonne pratique
 * autant de fichiers, autant de ADD
-* expication: si au moins un fichier source est modifie, l'instruction sera considere comme change et sera donc rejoue => le cache ne sera pas utulise
-* l'exemple montre que si on met +eurs fichiers source dans le ADD, si 1 seul parmi eux est modifierr, toute l'instruction sera rejoué alors que si chaque ADD porte sur 1 seul fichier,
+* expication: si au moins un fichier source est modifie, l'instruction sera considere comme change et sera donc rejoue
+ => le cache ne sera pas utulise
+* l'exemple montre que si on met +eurs fichiers source dans le ADD, si 1 seul parmi eux est modifierr,
+toute l'instruction sera rejoué alors que si chaque ADD porte sur 1 seul fichier,
 seulement le fichier modifiee sera rejoue et on utulisera le cache au max
 
-* Volume
+Volume
 * permet de creer un point de montage dans l'image, ce dernier se refere a un dossier dans l'hote
 * les donnes dans le volume seront persistes pcq qu'il referent a un dossier dans l'hote
 * le dossier data du conteneur peut etre vu comme un lien vers le dossier data de l'hote

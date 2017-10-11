@@ -1,6 +1,4 @@
-def buildMvn(path) {
-       sh "cd ./${path} && ${M2_HOME}/bin/mvn -Dmaven.test.skip=true clean install"
-}
+def pipeline
 
 
 node { 
@@ -9,6 +7,7 @@ node {
     
     stage ('Checkout scm') {
         checkout scm
+	pipeline = load 'pipeline.groovy'
     }
     
     stage ('Initialize') {
@@ -17,8 +16,8 @@ node {
         echo "JAVA_HOME = ${JAVA_HOME}"
         echo "M2_HOME = ${M2_HOME}"
           
-        buildMvn('micro-serices-sample-parent')
-        buildMvn('registry')
+        pipeline.buildMvn('micro-serices-sample-parent')
+        pipeline.buildMvn('registry')
     }
 }
 
