@@ -19,6 +19,10 @@ node {
         pipeline.buildMvn('micro-serices-sample-parent')
         pipeline.buildMvn('registry')
     }
+
+     stage ('build docker') {  
+         docker.build("ms-app:1.0")
+     }
 }
 
 
