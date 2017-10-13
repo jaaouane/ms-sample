@@ -1,4 +1,4 @@
-def pipeline
+@Library('my-shared-library') _
 
 
 node { 
@@ -7,18 +7,29 @@ node {
     
     stage ('Checkout scm') {
         checkout scm
-	pipeline = load 'pipeline.groovy'
     }
     
-    stage ('Initialize') {
+    stage ('build') {
               
         echo "PATH = ${PATH}"
         echo "JAVA_HOME = ${JAVA_HOME}"
         echo "M2_HOME = ${M2_HOME}"
-          
-        pipeline.buildMvn('micro-serices-sample-parent')
-        pipeline.buildMvn('registry')
+        // echo "${BAR}"
+        
+	    buildModule{
+		path = ['micro-serices-sample-parent','registry']
+		buildProfile = 'prod'
+	    }
     }
+    
+    /*
+    stage ('Tests Unitaires Backend') {                         
+       junitTest{                                                          
+           path = ['registry']                                     
+           ignoreFailure = true                                     
+       }                                            
+    }
+    */
 
      stage ('build docker') {  
          docker.build("ms-app:1.0")
