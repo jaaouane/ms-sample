@@ -22,7 +22,7 @@ node {
 	}
     }
     
-    
+    /*
     stage ('Tests Unitaires Backend') {                         
        junitTest{                                                          
            path = ['registry']                                     
@@ -30,9 +30,18 @@ node {
        }                                            
     }
     
-
      stage ('build docker') {  
          docker.build("ms-app:1.0")
+     }
+     
+     */
+
+     stage('SonarQube analysis') {
+	 // requires SonarQube Scanner 2.8+
+	 def scannerHome = tool 'sonar';
+	 withSonarQubeEnv('My SonarQube Server') {
+	    sh "${scannerHome}/bin/sonar-scanner"
+	 }
      }
 }
 
