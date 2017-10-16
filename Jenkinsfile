@@ -7,6 +7,11 @@ node {
     
     stage ('Checkout scm') {
         checkout scm
+
+	// lecture du pom
+	pom = readMavenPom file: "micro-serices-sample-parent/pom.xml"
+	versionApp = pom.version
+	echo "VERSION=${versionApp}"
     }
     
     stage ('build') {
