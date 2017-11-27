@@ -1,0 +1,20 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>ajconsulting.com.microservice.demo</groupId>
+	<artifactId>root</artifactId>
+	<version>1.1.0.RELEASE</version>
+	<packaging>pom</packaging>
+
+	<!-- Découpage en Modules -->
+	<modules>
+		<module>micro-serices-sample-parent</module>
+		<module>parent</module>
+		<module>config-server</module>
+		<module>registry</module>
+		<module>products-ms</module>
+		<module>shop-ms</module>
+		<module>oauth2-server</module>
+	</modules>
+
+</project>

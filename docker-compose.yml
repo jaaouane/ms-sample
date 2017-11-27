@@ -1,0 +1,41 @@
+version: '2.0'
+services:
+  config-server:
+    image: ms-sample/config-server
+    container_name: ms-sample-config-server
+    ports:
+     - "8888:8888"
+    volumes:
+     - "/applis/ms-sample/logs/config-server:/applis/ms-sample/logs/config-server"
+    networks:
+     - mssample-network
+
+  registry:
+    image: ms-sample/registry
+    container_name: ms-sample-registry
+    ports:
+     - "8761:8761"
+    volumes:
+     - "/applis/ms-sample/logs/registry:/applis/ms-sample/logs/registry"
+    depends_on:
+      - "config-server"
+    networks:
+     - mssample-network
+
+  products-ms:
+    image: ms-sample/products-ms
+    container_name: ms-sample-products-ms
+    ports:
+     - "8080:8080"
+    volumes:
+     - "/applis/ms-sample/logs/products-ms:/applis/ms-sample/logs/products-ms"
+    depends_on:
+      - "registry"
+    networks:
+     - mssample-network
+
+
+
+networks:
+  mssample-network:
+      driver: bridge

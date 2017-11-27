@@ -1,0 +1,13 @@
+target
+**/*.log
+**/*.classpath
+**/*.project
+**/*.prefs
+.svn
+*.iml
+LOCAL.properties
+**/.project
+**/.settings
+ansible.log
+*local
+
