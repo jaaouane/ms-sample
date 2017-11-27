@@ -6,12 +6,16 @@ docker rmi ms-sample/registry
 
 docker rmi ms-sample/products-ms
 
+docker rmi ms-sample/shop-ms
+
 
 docker build -t ms-sample/config-server  ./
 
 docker build -t ms-sample/registry  ./
 
 docker build -t ms-sample/products-ms  ./
+
+docker build -t ms-sample/shop-ms  ./
 
 
 

@@ -21,6 +21,8 @@
 
 	 4) sudo mkdir -p  /applis/ms-sample/logs/products-ms &&  sudo chown ms-sample:ms-sample -R /applis/ms-sample/logs/products-ms
 
+ 	 5) sudo mkdir -p  /applis/ms-sample/logs/shop-ms &&  sudo chown ms-sample:ms-sample -R /applis/ms-sample/logs/shop-ms
+
 
 
 

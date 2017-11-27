@@ -29,7 +29,7 @@ public class ShopController {
 
 	private static final String PATH = "/products";
 
-	private static final String PRODUCTS_MS = "http://product-ms";
+	private static final String PRODUCTS_MS = "http://products-ms";
 
 	private final Logger log = LoggerFactory.getLogger(ShopController.class);
 

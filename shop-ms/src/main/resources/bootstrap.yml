@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: shop-ms
+  cloud:
+    config:
+      uri: http://ms-sample-config-server:8888

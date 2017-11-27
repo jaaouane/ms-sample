@@ -34,7 +34,17 @@ services:
     networks:
      - mssample-network
 
-
+  shop-ms:
+    image: ms-sample/shop-ms
+    container_name: ms-sample-shop-ms
+    ports:
+     - "8081:8081"
+    volumes:
+     - "/applis/ms-sample/logs/shop-ms:/applis/ms-sample/logs/shop-ms"
+    depends_on:
+      - "registry"
+    networks:
+     - mssample-network
 
 networks:
   mssample-network:
