@@ -15,14 +15,12 @@ node {
 
         indexOf= versionApp.indexOf('.RELEASE')
 
-	echo "indexOf=${indexOf}"
-
         imgVersion = versionApp.substring(0,indexOf)
 
         echo "imgVersion = ${imgVersion}"
     }
     
-    /*
+    
     stage ('build') {
               
         echo "PATH = ${PATH}"
@@ -47,10 +45,10 @@ node {
     }
     
      stage ('build docker') {  
-         docker.build("ms-sample/registry:1.1.0","./registry")
+         docker.build("ms-sample/registry:${imgVersion}","./registry")
      }
      
-     
+     /*
     
      stage('SonarQube analysis') {
 	 // requires SonarQube Scanner 2.8+
