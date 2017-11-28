@@ -15,11 +15,11 @@ node {
 
         indexOf= versionApp.indexOf('.RELEASE')
 
-	echo ${indexOf}
+	echo "indexOf=${indexOf}"
 
-        echo  versionApp.substring(0,indexOf)
+        imgVersion = versionApp.substring(0,indexOf)
 
-	
+        echo "imgVersion = ${imgVersion}"
     }
     
     /*
