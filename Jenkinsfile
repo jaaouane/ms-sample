@@ -44,18 +44,11 @@ node {
     
     
     stage ('build docker') {  
-       buildImage{                                                          
-           path = ['config-server','registry','shop-ms','products-ms']                                     
-           projectName = 'ms-sample'                                     
-       }       
-       /*
-       def projectName = 'ms-sample';
-       def pathList = ['config-server','registry','shop-ms','products-ms'];
-       for(int i = 0; i < pathList.size(); i++){
-		def targetPath = pathList[i]
-                docker.build("${projectName}/${targetPath}:${imgVersion}","./${targetPath}")
-        }
-       */
+        dockerBuild {
+	     projectName = 'ms-sample'
+	     path = ['config-server','registry','shop-ms','products-ms']
+             imgVersion = '1.1.0'
+	}
     }
      
 
