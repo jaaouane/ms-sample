@@ -47,7 +47,7 @@ node {
         dockerBuild {
 	     path = ['config-server','registry','shop-ms','products-ms']
              projectName = 'ms-sample'
-             imgVersion = ${imgVersion}
+             imgVersion = '1.1.0'
 	}
     }
      
