@@ -12,27 +12,29 @@ node {
 	pom = readMavenPom file: "micro-serices-sample-parent/pom.xml"
 	versionApp = pom.version
 	echo "VERSION=${versionApp}"
+
+        indexOf= versionApp.indexOf('.RELEASE')
+
+	echo ${indexOf}
+
+        echo  versionApp.substring(0,indexOf)
+
+	
     }
     
+    /*
     stage ('build') {
               
         echo "PATH = ${PATH}"
         echo "JAVA_HOME = ${JAVA_HOME}"
         echo "M2_HOME = ${M2_HOME}"
-        // echo "${BAR}"
         
-	/*
 	buildModule{
-	     path = ['micro-serices-sample-parent','registry']
-             buildProfile = 'prod'
+	     // path = ['micro-serices-sample-parent','registry']
+             // buildProfile = 'prod'
 	}
-	*/
 
-	// Appel de MAVEN PACKAGE
-	withMaven(maven: 'maven3'){
-		// Run the maven build
-		sh "mvn -Dmaven.test.skip=true clean install"
-	}
+
 
     }
     
@@ -45,11 +47,11 @@ node {
     }
     
      stage ('build docker') {  
-         docker.build("ms-sample/registry","./registry")
+         docker.build("ms-sample/registry:1.1.0","./registry")
      }
      
      
-     /*
+    
      stage('SonarQube analysis') {
 	 // requires SonarQube Scanner 2.8+
 	 def scannerHome = tool 'sonar';
