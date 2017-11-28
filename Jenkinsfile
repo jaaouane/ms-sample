@@ -32,11 +32,9 @@ node {
              // buildProfile = 'prod'
 	}
 
-
-
     }
     
-   
+
     stage ('Tests Unitaires Backend') {                         
        junitTest{                                                          
            path = ['config-server','registry','shop-ms','products-ms']                                     
@@ -44,12 +42,17 @@ node {
        }                                            
     }
     
-     stage ('build docker') {  
-         docker.build("ms-sample/registry:${imgVersion}","./registry")
-     }
-     
-     /*
     
+    stage ('build docker') {  
+        dockerBuild {
+	     path = ['config-server','registry','shop-ms','products-ms']
+             projectName = 'ms-sample'
+             imgVersion = ${imgVersion}
+	}
+    }
+     
+
+     /*
      stage('SonarQube analysis') {
 	 // requires SonarQube Scanner 2.8+
 	 def scannerHome = tool 'sonar';
