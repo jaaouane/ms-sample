@@ -9,7 +9,6 @@
 	<!-- Découpage en Modules -->
 	<modules>
 		<module>micro-serices-sample-parent</module>
-		<module>parent</module>
 		<module>config-server</module>
 		<module>registry</module>
 		<module>products-ms</module>

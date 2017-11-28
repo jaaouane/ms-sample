@@ -21,26 +21,35 @@ node {
         echo "M2_HOME = ${M2_HOME}"
         // echo "${BAR}"
         
+	/*
 	buildModule{
 	     path = ['micro-serices-sample-parent','registry']
              buildProfile = 'prod'
 	}
+	*/
+
+	// Appel de MAVEN PACKAGE
+	withMaven(maven: 'maven3'){
+		// Run the maven build
+		sh "mvn -Dmaven.test.skip=true clean install"
+	}
+
     }
     
-    /*
+   
     stage ('Tests Unitaires Backend') {                         
        junitTest{                                                          
-           path = ['registry']                                     
+           path = ['config-server','registry','shop-ms','products-ms']                                     
            ignoreFailure = true                                     
        }                                            
     }
     
      stage ('build docker') {  
-         docker.build("ms-app:1.0")
+         docker.build("ms-sample/registry","./registry")
      }
      
-     */
-
+     
+     /*
      stage('SonarQube analysis') {
 	 // requires SonarQube Scanner 2.8+
 	 def scannerHome = tool 'sonar';
@@ -48,6 +57,7 @@ node {
 	    sh "${scannerHome}/bin/sonar-scanner"
 	 }
      }
+    */
 }
 
 
