@@ -54,6 +54,10 @@ node {
              //imgVersion = imgVersion
 	}
     }
+
+    stage ('docker compose') {  
+       sh "docker-compose up";
+    }
      
 
      /*
