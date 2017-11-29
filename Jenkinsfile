@@ -43,6 +43,12 @@ node {
     }
 
     stage ('purge docker imags') {  
+	def containers = ['ms-sample-config-server','ms-sample-registry','ms-sample-products-ms','ms-sample-shop-ms'];
+	for(int i = 0; i < containers.size(); i++){
+		def container = containers[i];
+                sh "docker rm ${container}";
+        }
+   
         def images = ['config-server','registry','shop-ms','products-ms'];	
 	def projectName = 'ms-sample';
         for(int i = 0; i < images.size(); i++){
