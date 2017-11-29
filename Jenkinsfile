@@ -43,10 +43,8 @@ node {
     }
 
     stage ('purge docker imags') {  
-        echo "purge docker imags"
-	// sh "docker ps| grep ms-sample | awk '{print $1}' | uniq | xargs -L1 docker rm -f"
-   
-        // sh "docker images| grep ms-sample | awk '{print $1}' | uniq | xargs -L1 docker rmi -f"
+        echo "purge docker imags";
+	sh "./purgeImages.sh";
     }
     
     stage ('build docker') {  
