@@ -43,18 +43,10 @@ node {
     }
 
     stage ('purge docker imags') {  
-	def containers = ['ms-sample-config-server','ms-sample-registry','ms-sample-products-ms','ms-sample-shop-ms'];
-	for(int i = 0; i < containers.size(); i++){
-		def container = containers[i];
-                sh "docker rm ${container}";
-        }
+        echo "purge docker imags"
+	// sh "docker ps| grep ms-sample | awk '{print $1}' | uniq | xargs -L1 docker rm -f"
    
-        def images = ['config-server','registry','shop-ms','products-ms'];	
-	def projectName = 'ms-sample';
-        for(int i = 0; i < images.size(); i++){
-		def image = images[i]
-                sh "docker rmi ${projectName}/${image}:latest"
-        }
+        // sh "docker images| grep ms-sample | awk '{print $1}' | uniq | xargs -L1 docker rmi -f"
     }
     
     stage ('build docker') {  
