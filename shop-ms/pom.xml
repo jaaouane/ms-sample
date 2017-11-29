@@ -9,6 +9,7 @@
 		<groupId>ajconsulting.com.microservice.demo</groupId>
 		<artifactId>micro-serices-sample-parent</artifactId>
 		<version>1.1.0.RELEASE</version>
+		<relativePath>../micro-serices-sample-parent/pom.xml</relativePath> <!-- lookup parent from repository -->
 	</parent>
 
 <dependencies>
