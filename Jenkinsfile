@@ -41,7 +41,14 @@ node {
            ignoreFailure = true                                     
        }                                            
     }
-    
+
+    stage ('purge docker imags') {  
+        def images = ['config-server','registry','shop-ms','products-ms'];
+        for(int i = 0; i < images.size(); i++){
+		def image = images[i]
+                sh "docker rmi ${image}:latest"
+        }
+    }
     
     stage ('build docker') {  
         dockerBuild {
