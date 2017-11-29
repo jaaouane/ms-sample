@@ -7,3 +7,5 @@ spring:
       server:
         git:
           uri: https://github.com/jaaouane/configs.git
+      overrideSystemProperties: false
+      overrideNone: true
