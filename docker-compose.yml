@@ -37,6 +37,8 @@ services:
   shop-ms:
     image: ms-sample/shop-ms
     container_name: ms-sample-shop-ms
+    env_file:
+        - ./env/env_shop.conf
     ports:
      - "8081:8081"
     volumes:

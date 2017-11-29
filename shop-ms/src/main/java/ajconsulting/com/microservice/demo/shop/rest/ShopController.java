@@ -39,10 +39,16 @@ public class ShopController {
 
 	@Value("${message:Hello default}")
 	private String message;
+	
+	@Value("${spring.mail.host}")
+	private String mailHost;
+	
+	@Value("${spring.mail.username}")
+	private String userName;
 
 	@RequestMapping("/message")
 	String getMessage() {
-		return message;
+		return message + mailHost +" : " + userName;
 	}
 
 	@HystrixCommand(fallbackMethod = "defaultProducts")
