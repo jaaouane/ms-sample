@@ -43,10 +43,11 @@ node {
     }
 
     stage ('purge docker imags') {  
-        def images = ['config-server','registry','shop-ms','products-ms'];
+        def images = ['config-server','registry','shop-ms','products-ms'];	
+	def projectName = 'ms-sample';
         for(int i = 0; i < images.size(); i++){
 		def image = images[i]
-                sh "docker rmi ${image}:latest"
+                sh "docker rmi ${projectName}/${image}:latest"
         }
     }
     
