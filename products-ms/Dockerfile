@@ -22,5 +22,5 @@ EXPOSE 8080
 USER ms-sample
 
 CMD echo "The application will start ..." && \
-    sleep 20  && \
+    sleep 60  && \
     java -Dfile.encoding=UTF-8 -Djava.security.egd=file:/dev/./urandom -jar /products-ms.jar

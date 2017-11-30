@@ -22,5 +22,5 @@ EXPOSE 8888
 USER ms-sample
 
 CMD echo "The application will start ..." && \
-    sleep 5  && \
+    sleep 30  && \
     java -Dfile.encoding=UTF-8 -Djava.security.egd=file:/dev/./urandom -jar /registry.jar
