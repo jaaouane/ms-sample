@@ -1,7 +1,7 @@
 #!/bin/bash
 
-if [[ $(docker ps| grep ms-sample | awk '{print $1}' | uniq) ]]; then
-    docker ps| grep ms-sample | awk '{print $1}' | uniq | xargs docker rm -f
+if [[ $(docker ps -a| grep ms-sample | awk '{print $1}' | uniq) ]]; then
+    docker ps -a| grep ms-sample | awk '{print $1}' | uniq | xargs docker rm -f
 else
     echo "no containers to remove found"
 fi

@@ -68,3 +68,9 @@
 *  install Pipeline Utility Steps plugin to have readMavenPom in pipeline
 
 
+# docker-compose
+
+* se connecter au container via docker exec -u root -ti jenkins_blueocean bash  et installer manuellement docker-compose(voir lien)
+
+*  https://wiki.alpinelinux.org/wiki/Docker#Docker_Compose
+
