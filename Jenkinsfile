@@ -17,7 +17,6 @@ node {
 
         imgVersion = versionApp.substring(0,indexOf)
 
-        echo "imgVersion = ${imgVersion}"
     }
     
     
@@ -47,7 +46,8 @@ node {
 	sh "./purgeImages.sh";
     }
     
-    stage ('build docker') {  
+    stage ('build docker') { 
+        echo "imgVersion = ${imgVersion}" 
         dockerBuild {
 	     projectName = 'ms-sample'
 	     path = ['config-server','registry','shop-ms','products-ms']
@@ -56,6 +56,7 @@ node {
     }
 
     stage ('update compose') {  
+       echo "imgVersion = ${imgVersion}"
        updateCompose {
 	     projectName = 'ms-sample'
 	     path = ['config-server','registry','shop-ms','products-ms']
