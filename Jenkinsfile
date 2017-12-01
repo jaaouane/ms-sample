@@ -47,7 +47,6 @@ node {
     }
     
     stage ('build docker') { 
-        echo "imgVersion = ${imgVersion}" 
         dockerBuild {
 	     projectName = 'ms-sample'
 	     path = ['config-server','registry','shop-ms','products-ms']
@@ -56,7 +55,6 @@ node {
     }
 
     stage ('update compose') {  
-       echo "imgVersion = ${imgVersion}"
        updateCompose {
 	     projectName = 'ms-sample'
 	     path = ['config-server','registry','shop-ms','products-ms']
@@ -67,6 +65,7 @@ node {
 
     stage ('docker compose') {  
        sh "docker-compose up -d";
+       sh "git commit -am 'update compose version' ";
     }
      
 
