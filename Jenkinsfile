@@ -51,9 +51,18 @@ node {
         dockerBuild {
 	     projectName = 'ms-sample'
 	     path = ['config-server','registry','shop-ms','products-ms']
-             //imgVersion = imgVersion
+             imgVersion = imgVersion
 	}
     }
+
+    stage ('update compose') {  
+       updateCompose {
+	     projectName = 'ms-sample'
+	     path = ['config-server','registry','shop-ms','products-ms']
+             imgVersion = imgVersion
+	}
+    }
+
 
     stage ('docker compose') {  
        sh "docker-compose up -d";
