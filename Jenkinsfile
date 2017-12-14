@@ -1,5 +1,8 @@
 @Library('my-shared-library') _
 
+def versionApp = 'default'
+
+def imgVersion = 'latest'
 
 node { 
     
@@ -10,12 +13,12 @@ node {
 
 	// lecture du pom
 	pom = readMavenPom file: "micro-serices-sample-parent/pom.xml"
-	def versionApp = pom.version
+        versionApp = pom.version
 	echo "VERSION=${versionApp}"
 
         indexOf= versionApp.indexOf('.RELEASE')
 
-        def imgVersion = versionApp.substring(0,indexOf)
+        imgVersion = versionApp.substring(0,indexOf)
 
     }
     
