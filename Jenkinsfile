@@ -15,7 +15,7 @@ node {
 
         indexOf= versionApp.indexOf('.RELEASE')
 
-        def imageVersion = versionApp.substring(0,indexOf)
+        imageVersion = versionApp.substring(0,indexOf)
 
     }
     
