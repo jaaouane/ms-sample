@@ -48,6 +48,7 @@ node {
     
     stage ('build docker') { 
 
+	def imgVersion = "01.00.00"
 	echo "imgVersion before call= ${imgVersion}" 
 
         dockerBuild {
