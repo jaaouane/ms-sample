@@ -1,8 +1,5 @@
 @Library('my-shared-library') _
 
-def versionApp = 'default'
-
-def imgVersion = 'latest'
 
 node { 
     
@@ -13,12 +10,12 @@ node {
 
 	// lecture du pom
 	pom = readMavenPom file: "micro-serices-sample-parent/pom.xml"
-        versionApp = pom.version
+        def versionApp = pom.version
 	echo "VERSION=${versionApp}"
 
         indexOf= versionApp.indexOf('.RELEASE')
 
-        imgVersion = versionApp.substring(0,indexOf)
+        def imageVersion = versionApp.substring(0,indexOf)
 
     }
     
@@ -50,22 +47,13 @@ node {
     }
     
     stage ('build docker') { 
-        pom = readMavenPom file: "micro-serices-sample-parent/pom.xml"
 
-        versionApp = pom.version
-
-	echo "VERSION=${versionApp}"
-
-        indexOf= versionApp.indexOf('.RELEASE')
-
-        imgVersion = versionApp.substring(0,indexOf)
-
-	echo "imgVersion before call= ${imgVersion}" 
+	echo "imgVersion before call= ${imageVersion}" 
 
         dockerBuild {
 	     projectName = 'ms-sample'
 	     path = ['config-server','registry','shop-ms','products-ms']
-             imgVersion = '${imgVersion}'
+             imgVersion = "${imageVersion}"
 	}
     }
 
