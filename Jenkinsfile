@@ -33,13 +33,14 @@ node {
 
     }
     
-
+    /*
     stage ('Tests Unitaires Backend') {                         
        junitTest{                                                          
            path = ['config-server','registry','shop-ms','products-ms']                                     
            ignoreFailure = true                                     
        }                                            
     }
+     */
 
     stage ('purge docker imags') {  
         echo "purge docker imags";
