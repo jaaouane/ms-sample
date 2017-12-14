@@ -54,22 +54,27 @@ node {
 	}
     }
 
+    /*
     stage ('update compose') {  
        updateCompose {
 	     projectName = 'ms-sample'
 	     path = ['config-server','registry','shop-ms','products-ms']
              imgVersion = imgVersion
 	}
+
+       sh "git config user.email 'jenkins@ajconsulting.com' "
+       sh "git config user.name 'jenkins' "
+       sh "git commit -am 'update compose version to ${imgVersion}' ";
+       sh "git push origin HEAD:master";
     }
 
 
     stage ('docker compose') {  
        sh "docker-compose up -d";
-       sh "git commit -am 'update compose version' ";
     }
      
 
-     /*
+     
      stage('SonarQube analysis') {
 	 // requires SonarQube Scanner 2.8+
 	 def scannerHome = tool 'sonar';
