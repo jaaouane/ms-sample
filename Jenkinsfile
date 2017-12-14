@@ -10,12 +10,12 @@ node {
 
 	// lecture du pom
 	pom = readMavenPom file: "micro-serices-sample-parent/pom.xml"
-	versionApp = pom.version
+	def versionApp = pom.version
 	echo "VERSION=${versionApp}"
 
         indexOf= versionApp.indexOf('.RELEASE')
 
-        imgVersion = versionApp.substring(0,indexOf)
+        def imgVersion = versionApp.substring(0,indexOf)
 
     }
     
@@ -48,7 +48,7 @@ node {
     
     stage ('build docker') { 
 
-	echo "imgVersion = ${imgVersion}" 
+	echo "imgVersion before call= ${imgVersion}" 
 
         dockerBuild {
 	     projectName = 'ms-sample'
