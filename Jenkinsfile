@@ -47,6 +47,9 @@ node {
     }
     
     stage ('build docker') { 
+
+	echo "imgVersion = ${imgVersion}" 
+
         dockerBuild {
 	     projectName = 'ms-sample'
 	     path = ['config-server','registry','shop-ms','products-ms']
