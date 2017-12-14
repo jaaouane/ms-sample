@@ -54,11 +54,11 @@ node {
         dockerBuild {
 	     projectName = 'ms-sample'
 	     path = ['config-server','registry','shop-ms','products-ms']
-             imgVersion = "aaa-${imgVersion}"
+             imgVersion = "${imgVersion}"
 	}
     }
 
-    /*
+   
     stage ('update compose') {  
        updateCompose {
 	     projectName = 'ms-sample'
@@ -68,11 +68,18 @@ node {
 
        sh "git config user.email 'jenkins@ajconsulting.com' "
        sh "git config user.name 'jenkins' "
-       sh "git commit -am 'update compose version to ${imgVersion}' ";
-       sh "git push origin HEAD:master";
+       
+       def change = sh returnStdout: true, script: 'git status --short | wc -l'
+       echo "change= ${change}" 
+       
+       if (change.toInteger() >0) {
+           echo "commiter docker compose" 
+           sh "git commit -am 'update compose version to ${imgVersion}' ";
+       	   sh "git push origin HEAD:master";
+       }
     }
 
-
+    /*
     stage ('docker compose') {  
        sh "docker-compose up -d";
     }
