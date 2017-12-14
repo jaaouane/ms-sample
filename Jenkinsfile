@@ -15,8 +15,7 @@ node {
 
         indexOf= versionApp.indexOf('.RELEASE')
 
-        imageVersion = versionApp.substring(0,indexOf)
-
+        imgVersion = versionApp.substring(0,indexOf)
     }
     
     
@@ -49,12 +48,12 @@ node {
     
     stage ('build docker') { 
 
-	echo "imgVersion before call= ${imageVersion}" 
+	echo "imgVersion before call= ${imgVersion}" 
 
         dockerBuild {
 	     projectName = 'ms-sample'
 	     path = ['config-server','registry','shop-ms','products-ms']
-             imgVersion = "${imageVersion}"
+             imgVersion = "${imgVersion}"
 	}
     }
 
