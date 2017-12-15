@@ -17,8 +17,8 @@ node {
         def versionApp = pom.version
 	echo "VERSION=${versionApp}"
 	//echo "branch-name=${BRANCH}" : marche pas
-	//echo "branch-name=${BRANCH}" : marche pas
-${env.GIT_USERNAME}
+	//echo "branch-name=${env.GIT_USERNAME}" : marche pas
+
 
         indexOf= versionApp.indexOf('.RELEASE')
 
