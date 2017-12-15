@@ -6,8 +6,8 @@ node {
     echo 'Hello World' 
     
     stage ('Checkout scm') {
-	currentBranch = "${result['GIT_BRANCH']}"
-	echo "currentBranch=${currentBranch}"
+	//currentBranch = "${result['GIT_BRANCH']}"
+	//echo "currentBranch=${currentBranch}"
 	echo "BRANCH_NAME=${BRANCH_NAME}"
         checkout scm master
 
