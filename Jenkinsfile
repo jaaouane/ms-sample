@@ -6,7 +6,8 @@ node {
     echo 'Hello World' 
     
     stage ('Checkout scm') {
-        //checkout scm master
+        //checkout scm 
+        //elle marche mais l'etat dans jenkins est dans DETACHED_HEAD, jenkins n'est pas dans le master
 
 	git credentialsId: 'git-credentials', url: 'https://github.com/jaaouane/ms-sample', branch: 'master'
 
@@ -15,6 +16,7 @@ node {
 	pom = readMavenPom file: "micro-serices-sample-parent/pom.xml"
         def versionApp = pom.version
 	echo "VERSION=${versionApp}"
+	echo "branch-name=${BRANCH_NAME}"
 
         indexOf= versionApp.indexOf('.RELEASE')
 
