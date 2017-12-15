@@ -16,7 +16,7 @@ node {
 	pom = readMavenPom file: "micro-serices-sample-parent/pom.xml"
         def versionApp = pom.version
 	echo "VERSION=${versionApp}"
-	echo "branch-name=${BRANCH}"
+	//echo "branch-name=${BRANCH}" : marche pas
 
         indexOf= versionApp.indexOf('.RELEASE')
 
