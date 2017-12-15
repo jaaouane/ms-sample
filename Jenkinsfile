@@ -83,11 +83,18 @@ node {
            echo "commiter docker compose" 
            sh "git commit -am 'update compose version to ${imgVersion}' ";
        	   //sh "git push origin HEAD:master";
-          
+           /*
            withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'git-credentials', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD']]) {
 
 		    sh("git push https://${env.GIT_USERNAME}:${env.GIT_PASSWORD}@https://github.com/jaaouane/ms-sample.git --all")
 	   }
+           */
+
+	   withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'git-credentials', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD']]) { 
+                  
+                    sh('URL=`git config --get remote.origin.url | sed \"s;://;://${GIT_USERNAME}:${GIT_PASSWORD}@;g\"` && git push --set-upstream ${URL} --all' )    
+           }
+
           
        }
     }
