@@ -17,6 +17,8 @@ node {
         def versionApp = pom.version
 	echo "VERSION=${versionApp}"
 	//echo "branch-name=${BRANCH}" : marche pas
+	//echo "branch-name=${BRANCH}" : marche pas
+${env.GIT_USERNAME}
 
         indexOf= versionApp.indexOf('.RELEASE')
 
@@ -80,7 +82,12 @@ node {
        if (change.toInteger() >0) {
            echo "commiter docker compose" 
            sh "git commit -am 'update compose version to ${imgVersion}' ";
-       	   sh "git push origin HEAD:master";
+       	   //sh "git push origin HEAD:master";
+
+           withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'git-credentials', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD']]) {
+
+		    sh("git push https://${env.GIT_USERNAME}:${env.GIT_PASSWORD}@<REPO>")
+	   }
        }
     }
 
