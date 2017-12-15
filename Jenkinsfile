@@ -6,7 +6,7 @@ node {
     echo 'Hello World' 
     
     stage ('Checkout scm') {
-        checkout scm
+        checkout scm master
 
 	// lecture du pom
 	pom = readMavenPom file: "micro-serices-sample-parent/pom.xml"
