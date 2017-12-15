@@ -8,7 +8,7 @@ node {
     stage ('Checkout scm') {
         //checkout scm master
 
-	git credentialsId: 'git-credentials', url: 'https://github.com/jaaouane/ms-sample', branch: master
+	git credentialsId: 'git-credentials', url: 'https://github.com/jaaouane/ms-sample', branch: 'master'
 
 
 	// lecture du pom
