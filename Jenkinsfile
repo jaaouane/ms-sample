@@ -6,10 +6,10 @@ node {
     echo 'Hello World' 
     
     stage ('Checkout scm') {
-	def branch = "${BRANCH_NAME}"
-	//echo "currentBranch=${currentBranch}"
-	echo "branch=${branch}"
-        checkout scm master
+        //checkout scm master
+
+	git credentialsId: 'git-credentials', url: 'https://github.com/jaaouane/ms-sample', branch: master
+
 
 	// lecture du pom
 	pom = readMavenPom file: "micro-serices-sample-parent/pom.xml"
