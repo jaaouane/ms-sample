@@ -6,9 +6,9 @@ node {
     echo 'Hello World' 
     
     stage ('Checkout scm') {
-	//currentBranch = "${result['GIT_BRANCH']}"
+	def branch = "${BRANCH_NAME}"
 	//echo "currentBranch=${currentBranch}"
-	//echo "BRANCH_NAME=${BRANCH_NAME}"
+	echo "branch=${branch}"
         checkout scm master
 
 	// lecture du pom
