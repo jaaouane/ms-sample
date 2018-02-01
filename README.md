@@ -27,7 +27,16 @@
 
       * lancer docker-compose up depuis le répértoire jenkins
    
-      * se connecter sur http://localhost:9080 et lancer un build, le build lancera tous les services
+      * se connecter sur http://localhost:9080 et lancer un build, le build lancera tous les services via docker-compose
+
+      * pour tester le serveur de configuration, tapez http://localhost:8888/registry/default : il va afficher la config du micro-service registry
+      
+      * http://localhost:8761/ est l'URL d'EUREKA
+    
+      * http://localhost:8080/products  est l'URL du micro-service products
+  
+      * http://localhost:8081/references  est l'URL du micro-service references
+       
 
 
 
