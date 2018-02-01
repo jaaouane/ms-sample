@@ -7,10 +7,9 @@ node {
     
     stage ('Checkout scm') {
         //checkout scm 
-        //elle marche mais l'etat dans jenkins est dans DETACHED_HEAD, jenkins n'est pas dans le master
+        //elle marche pas pcq l'etat dans jenkins est dans DETACHED_HEAD, jenkins ne se trouve pas dans le master
 
 	git credentialsId: 'git-credentials', url: 'https://github.com/jaaouane/ms-sample', branch: 'master'
-
 
 	// lecture du pom
 	pom = readMavenPom file: "micro-serices-sample-parent/pom.xml"
@@ -21,7 +20,6 @@ node {
 
 
         indexOf= versionApp.indexOf('.RELEASE')
-
         imgVersion = versionApp.substring(0,indexOf)
     }
     
@@ -88,13 +86,13 @@ node {
 
 		    sh("git push https://${env.GIT_USERNAME}:${env.GIT_PASSWORD}@https://github.com/jaaouane/ms-sample.git --all")
 	   }
-           */
+          
 
 	   withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'git-credentials', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD']]) { 
                   
                     sh('URL=`git config --get remote.origin.url | sed \"s;://;://${GIT_USERNAME}:${GIT_PASSWORD}@;g\"` && git push --set-upstream ${URL} --all' )    
            }
-
+           */
           
        }
     }
