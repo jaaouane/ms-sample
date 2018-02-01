@@ -107,15 +107,14 @@ node {
     }
      
 
-     /*
-     stage('SonarQube analysis') {
+    stage('SonarQube analysis') {
 	 // requires SonarQube Scanner 2.8+
 	 def scannerHome = tool 'sonar';
 	 withSonarQubeEnv('My SonarQube Server') {
 	    sh "${scannerHome}/bin/sonar-scanner"
 	 }
-     }
-    */
+    }
+    /* */
 }
 
 
