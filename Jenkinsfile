@@ -57,7 +57,7 @@ node {
         dockerBuild {
 	     projectName = 'ms-sample'
 	     path = ['config-server','registry','shop-ms','products-ms']
-             imgVersion = "01.${imgVersion}"
+             imgVersion = imgVersion
 	}
     }
 
@@ -111,6 +111,8 @@ node {
 	 withSonarQubeEnv('My SonarQube Server') {
 	    sh "${scannerHome}/bin/sonar-scanner"
 	 }
+
+	sh "rm -rf .scannerwork/"
     }
     /* */
 }
