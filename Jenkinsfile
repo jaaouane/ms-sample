@@ -6,12 +6,12 @@ node {
     echo 'Hello World' 
     
     stage ('Checkout scm') {
-        //checkout scm 
+        def result = checkout scm
         //elle marche pas pcq l'etat dans jenkins est dans DETACHED_HEAD, jenkins ne se trouve pas dans le master
 
-	echo "branche = ${GIT_BRANCH}"
+	echo "branche = ${result['GIT_BRANCH']}"
 
-	git credentialsId: 'git-credentials', url: 'https://github.com/jaaouane/ms-sample', branch: 'master'
+	// git credentialsId: 'git-credentials', url: 'https://github.com/jaaouane/ms-sample', branch: 'master'
 
 	// lecture du pom
 	pom = readMavenPom file: "micro-serices-sample-parent/pom.xml"
