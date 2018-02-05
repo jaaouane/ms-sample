@@ -61,8 +61,8 @@ node {
 	echo "imgVersion=${imgVersion}"
 
         dockerBuild {
-	     projectName = 'ms-sample'
-	     path = ['config-server','registry','shop-ms','products-ms']
+	     //projectName = 'ms-sample'
+	     //path = ['config-server','registry','shop-ms','products-ms']
 	     imgVersion = imgVersion
 	}
     }
