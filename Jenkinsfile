@@ -57,7 +57,7 @@ node {
 	echo "VERSION=${versionApp}"
 
         indexOf= versionApp.indexOf('.RELEASE')
-        imgVersion = versionApp.substring(0,indexOf)
+        def imgVersion = versionApp.substring(0,indexOf)
 	echo "imgVersion=${imgVersion}"
 
         dockerBuild {
