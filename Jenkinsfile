@@ -9,7 +9,7 @@ node {
         //checkout scm 
         //elle marche pas pcq l'etat dans jenkins est dans DETACHED_HEAD, jenkins ne se trouve pas dans le master
 
-	echo "branche = ${result['GIT_BRANCH']}"
+	echo "branche = ${GIT_BRANCH}"
 
 	git credentialsId: 'git-credentials', url: 'https://github.com/jaaouane/ms-sample', branch: 'master'
 
