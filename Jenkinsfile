@@ -7,7 +7,8 @@ node {
     
     stage ('Checkout scm') {
         def result = checkout scm
-
+        
+        // Additional Behaviours Check out to specific local branch
         // disable lightweight checkout to work this
 	echo "branche = ${result['GIT_BRANCH']}"
 
@@ -50,14 +51,12 @@ node {
     }
     
     stage ('build docker') { 
-
-	def imgVersion = "01.00.02"
 	echo "imgVersion before call= ${imgVersion}" 
 
         dockerBuild {
 	     projectName = 'ms-sample'
 	     path = ['config-server','registry','shop-ms','products-ms']
-             imgVersion = imgVersion
+	     imgVersion = ["${imgVersion}"]
 	}
     }
 
