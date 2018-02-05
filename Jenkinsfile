@@ -7,22 +7,18 @@ node {
     
     stage ('Checkout scm') {
         def result = checkout scm
-        //elle marche pas pcq l'etat dans jenkins est dans DETACHED_HEAD, jenkins ne se trouve pas dans le master
 
+        // disable lightweight checkout to work this
 	echo "branche = ${result['GIT_BRANCH']}"
-
-	// git credentialsId: 'git-credentials', url: 'https://github.com/jaaouane/ms-sample', branch: 'master'
 
 	// lecture du pom
 	pom = readMavenPom file: "micro-serices-sample-parent/pom.xml"
         def versionApp = pom.version
 	echo "VERSION=${versionApp}"
-	//echo "branch-name=${BRANCH}" : marche pas
-	//echo "git-name=${env.GIT_USERNAME}" : marche pas
-
 
         indexOf= versionApp.indexOf('.RELEASE')
         imgVersion = versionApp.substring(0,indexOf)
+	echo "imgVersion=${imgVersion}"
     }
     
     
