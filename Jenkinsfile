@@ -110,7 +110,9 @@ node {
     stage ('docker compose') {  
        sh "docker-compose up -d";
     }
-     
+    
+    /*
+    //demarrer sonarQube sur la machine
     stage('SonarQube analysis') {
 	 // requires SonarQube Scanner 2.8+
 	 def scannerHome = tool 'sonar';
@@ -120,7 +122,7 @@ node {
 
 	sh "rm -rf .scannerwork/"
     }
-    /* */
+    /*
 }
 
 
