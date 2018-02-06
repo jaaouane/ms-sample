@@ -5,6 +5,8 @@ def imgVersion = 'latest'
 // ## PARAMETRAGE JENKINS
 def environnement = params.ENVIRONNEMENT
 
+def isDev = params.IS_DEV
+
 node { 
     
     echo 'Hello World' 
@@ -24,6 +26,10 @@ node {
         indexOf= versionApp.indexOf('.RELEASE')
         imgVersion = versionApp.substring(0,indexOf)
 	echo "imgVersion=${imgVersion}"
+     
+        if(isDev){
+          echo "dev"
+        }
     }
     
     
@@ -40,14 +46,13 @@ node {
 
     }
     
-    /*
     stage ('Tests Unitaires Backend') {                         
        junitTest{                                                          
            path = ['config-server','registry','shop-ms','products-ms']                                     
            ignoreFailure = true                                     
        }                                            
     }
-     */
+    
 
     stage ('purge docker imags') {  
         echo "purge docker imags";
@@ -56,13 +61,15 @@ node {
     
     stage ('build docker') { 
         
+        /*
         dockerBuild {
 	     projectName = 'ms-sample'
 	     path = ['config-server','registry','shop-ms','products-ms']
 	     imgVersion = imgVersion
 	}
+        */
         
-	//dockerBuild2('ms-sample',['config-server','registry','shop-ms','products-ms'], imgVersion)
+	dockerBuild2('ms-sample',['config-server','registry','shop-ms','products-ms'], imgVersion)
     }
 
    
@@ -89,7 +96,7 @@ node {
            sh "git commit -am 'update compose version to ${imgVersion}' ";
        	   sh "git push origin HEAD:master";
            
-          //withCredentials ne marche pas c pourquioi c'est commité
+          //withCredentials ne marche pas c pourquioi c'est commenté
           // pour contourner le probléme , j'ai fait docker exec sur le conteneur jenkins pour se connecter au conteneur et j'ai lancé la commande git config credential.helper store
           // le login et mot de passe sont enregistrés dans le conteneur, ils seront plus demandés 
           /*
