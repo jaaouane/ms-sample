@@ -60,7 +60,6 @@ node {
 	     imgVersion = 'latest'
 	}
         */
-        echo "imgVersion=${imgVersion}"
 	dockerBuild2('ms-sample',['config-server','registry','shop-ms','products-ms'], imgVersion)
     }
 
@@ -107,7 +106,6 @@ node {
        sh "docker-compose up -d";
     }
      
-
     stage('SonarQube analysis') {
 	 // requires SonarQube Scanner 2.8+
 	 def scannerHome = tool 'sonar';
@@ -124,11 +122,10 @@ node {
 
 
 def dockerBuild2(projectName, pathList, imgVersion){
-	echo "dockerBuild2"
-	echo "imgVersion=${imgVersion}"
 
 	for(int i = 0; i < pathList.size(); i++){
 		def targetPath = pathList[i]
-                docker.build("${projectName}/${targetPath}:${imgVersion}","./${targetPath}")
-        }
+		docker.build("${projectName}/${targetPath}:${imgVersion}","./${targetPath}")
+	}
+
 }
