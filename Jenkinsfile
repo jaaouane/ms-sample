@@ -52,12 +52,14 @@ node {
     
     stage ('build docker') { 
 	// lecture du pom
-
+        /*
         dockerBuild {
 	     projectName = 'ms-sample'
 	     path = ['config-server','registry','shop-ms','products-ms']
 	     imgVersion = 'latest'
 	}
+        */
+	dockerBuild2('ms-sample',['config-server','registry','shop-ms','products-ms'], ${imgVersion})
     }
 
    
@@ -117,3 +119,14 @@ node {
 }
 
 
+
+
+def dockerBuild2(projectName, targetPath, imgVersion){
+	echo "dockerBuild2"
+	echo "imgVersion=${imgVersion}"
+
+	for(int i = 0; i < pathList.size(); i++){
+		def targetPath = pathList[i]
+                docker.build("${projectName}/${targetPath}:${imgVersion}","./${targetPath}")
+        }
+}
