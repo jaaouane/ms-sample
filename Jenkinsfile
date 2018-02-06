@@ -112,7 +112,7 @@ node {
     }
     
     /*
-    //demarrer sonarQube sur la machine
+    demarrer sonarQube sur la machine
     stage('SonarQube analysis') {
 	 // requires SonarQube Scanner 2.8+
 	 def scannerHome = tool 'sonar';
