@@ -136,10 +136,6 @@ def dockerBuild2(projectName, pathList, imgVersion){
                 sh "docker tag ${projectName}/${targetPath}:${imgVersion} ${projectName}/${targetPath}:latest"
 	}
 
-        
-
-        
-
 }
 
 
