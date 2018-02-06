@@ -1,5 +1,6 @@
 @Library('my-shared-library') _
 
+def imgVersion = 'latest'
 
 node { 
     
