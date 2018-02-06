@@ -18,7 +18,7 @@ node {
 	echo "VERSION=${versionApp}"
 
         indexOf= versionApp.indexOf('.RELEASE')
-        imgVersion = versionApp.substring(0,indexOf)
+        def imgVersion = versionApp.substring(0,indexOf)
 	echo "imgVersion=${imgVersion}"
     }
     
@@ -59,7 +59,8 @@ node {
 	     imgVersion = 'latest'
 	}
         */
-	dockerBuild2('ms-sample',['config-server','registry','shop-ms','products-ms'], ${imgVersion})
+        echo "imgVersion=${imgVersion}"
+	dockerBuild2('ms-sample',['config-server','registry','shop-ms','products-ms'], imgVersion)
     }
 
    
