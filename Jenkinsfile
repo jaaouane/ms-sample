@@ -15,7 +15,6 @@ node {
         // Additional Behaviours Check out to specific local branch
         // disable lightweight checkout to work this
 	echo "branche = ${result['GIT_BRANCH']}"
-        echo "branche = ${result['GIT_BRANCH']}"
 
 	// lecture du pom
 	pom = readMavenPom file: "micro-serices-sample-parent/pom.xml"
@@ -56,15 +55,14 @@ node {
     }
     
     stage ('build docker') { 
-	// lecture du pom
-        /*
+        
         dockerBuild {
 	     projectName = 'ms-sample'
 	     path = ['config-server','registry','shop-ms','products-ms']
-	     imgVersion = '${imgVersion}'
+	     imgVersion = "${imgVersion}"
 	}
-        */
-	dockerBuild2('ms-sample',['config-server','registry','shop-ms','products-ms'], imgVersion)
+        
+	//dockerBuild2('ms-sample',['config-server','registry','shop-ms','products-ms'], imgVersion)
     }
 
    
