@@ -133,9 +133,12 @@ def dockerBuild2(projectName, pathList, imgVersion){
 	for(int i = 0; i < pathList.size(); i++){
 		def targetPath = pathList[i]
 		docker.build("${projectName}/${targetPath}:${imgVersion}","./${targetPath}")
+                sh "docker tag ${projectName}/${targetPath}:${imgVersion} ${projectName}/${targetPath}:latest"
 	}
 
-        sh "docker tag ${projectName}:${imgVersion} ${projectName}:latest"
+        
+
+        
 
 }
 
