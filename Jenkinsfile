@@ -121,7 +121,7 @@ node {
 
 
 
-def dockerBuild2(projectName, targetPath, imgVersion){
+def dockerBuild2(projectName, pathList, imgVersion){
 	echo "dockerBuild2"
 	echo "imgVersion=${imgVersion}"
 
