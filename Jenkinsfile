@@ -2,6 +2,9 @@
 
 def imgVersion = 'latest'
 
+// ## PARAMETRAGE JENKINS
+def environnement = params.ENVIRONNEMENT
+
 node { 
     
     echo 'Hello World' 
@@ -12,11 +15,12 @@ node {
         // Additional Behaviours Check out to specific local branch
         // disable lightweight checkout to work this
 	echo "branche = ${result['GIT_BRANCH']}"
+        echo "branche = ${result['GIT_BRANCH']}"
 
 	// lecture du pom
 	pom = readMavenPom file: "micro-serices-sample-parent/pom.xml"
         def versionApp = pom.version
-	echo "VERSION=${versionApp}"
+	echo "environnement=${environnement}"
 
         indexOf= versionApp.indexOf('.RELEASE')
         imgVersion = versionApp.substring(0,indexOf)
