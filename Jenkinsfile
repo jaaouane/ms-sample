@@ -19,7 +19,7 @@ node {
 	echo "VERSION=${versionApp}"
 
         indexOf= versionApp.indexOf('.RELEASE')
-        def imgVersion = versionApp.substring(0,indexOf)
+        imgVersion = versionApp.substring(0,indexOf)
 	echo "imgVersion=${imgVersion}"
     }
     
