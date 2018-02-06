@@ -122,7 +122,7 @@ node {
 
 	sh "rm -rf .scannerwork/"
     }
-    /*
+    */
 }
 
 
