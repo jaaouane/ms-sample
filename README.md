@@ -27,14 +27,11 @@
 
  	 5) sudo mkdir -p  /applis/ms-sample/logs/shop-ms &&  sudo chown ms-sample:ms-sample -R /applis/ms-sample/logs/shop-ms
 
-#        6) creer un lien symbolique  ln -s /home/thales/dev/ms-sample/livraison/environment/dev /home/thales/dev/ms-sample/livraison/env
-
-         * systemctl is-enabled ms-sample.service && systemctl stop ms-sample.service ; systemctl daemon-reload && systemctl enable ms-sample.service && systemctl restart ms-sample.service
-         * journalctl -u ms-sample.service: pour voir les logs du service
-
-OU
+     OU
 
      * Ansible va faire automatiquement les taches listes ci-dessus: voire repertoire livraison/installation
+
+     * journalctl -u ms-sample.service: pour voir les logs du service
 
 
 # Tester l'appliction
