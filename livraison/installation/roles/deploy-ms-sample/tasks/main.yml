@@ -1,0 +1,52 @@
+---
+
+- name: copier le service dans systemd
+  copy:
+    src: ../service/ms-sample.service
+    dest: /etc/systemd/system/ms-sample.service
+    owner: root
+    group: root
+    mode: 0777   
+
+- name: creer les dossiers necéssaires pour le projet
+  file:
+    path: /applis/{{project}}/config/env
+    state: directory
+    owner: root
+    group: root
+    mode: 0777   
+
+- name: copier le docker-compose dans le dossier du projet
+  copy:
+    src: ../docker-compose.yml
+    dest: /applis/{{project}}/config/docker-compose.yml
+    owner: root
+    group: root
+    mode: 0777
+
+
+- name: copier les fichiers de configurtions corresondant à l'environnement cible
+  copy:
+    src: ../environment/{{env}}/env_shop.conf
+    dest: /applis/{{project}}/config/env/env_shop.conf
+    owner: root
+    group: root
+    mode: 0777
+
+- name: "{{inventory_hostname}} | Create group projet"
+  group: name={{grp_project}} gid={{gid_project}} state=present
+
+
+- name: "{{inventory_hostname}} | Create user projet"
+  user: name={{usr_project}} comment="Utilisateur projet {{project}}" uid={{uid_project}} group={{grp_project}} shell=/sbin/nologin state=present
+
+- name: creer tous les repertoires de logs pour tous les micro services
+  file: path=/applis/{{project}}/logs/{{item}} state=directory owner={{ usr_project }} group={{ grp_project }} mode=0777
+  with_items: "{{logs_directories}}" 
+
+
+# Lance le redémarrage du service (via le handler), voir service/handlers/main.yml
+# Le service est redémarré à la fin de l'éxécution du playbook
+-  command: /bin/true
+   notify:
+      - restart ms-sample.service

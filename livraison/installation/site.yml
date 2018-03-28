@@ -1,0 +1,21 @@
+---
+
+#sudo ansible-playbook -i"inventory/dev" site.yml --extra-vars "version=1.01.00 env=dev"
+#sudo ansible-playbook -i"inventory/dev" purge.yml"
+#cat /etc/passwd to see all users
+#cat /etc/group to see all groups
+- hosts: local
+  vars:
+    project: "ms-sample"
+    usr_project: "{{project}}"
+    grp_project: "{{project}}"
+    uid_project: 2005
+    gid_project: 2005
+    logs_directories:
+       - config-server
+       - registry
+       - products-ms
+       - shop-ms
+
+  roles:
+    - deploy-ms-sample

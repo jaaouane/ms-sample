@@ -1,0 +1,45 @@
+---
+- hosts: local
+  vars:
+    http_port: 8081
+    domains:
+       - "example.com"
+       - "ajconsulting.com"
+       - "rte.com"
+    totos:
+       - toto
+       - titi
+       - tata
+
+  tasks:
+
+    - name: "clean directory for {{ item }}"
+      file: path=/var/www/{{ item }} state=absent
+      with_items:
+       - "{{ domains }}"      
+
+    - name: clean virtual host file
+      file: path=/etc/apache2/sites-available/{{ item }}.conf state=absent
+      with_items:
+       - "{{ domains }}"
+
+    - name: clean links in sites-enabled
+      file: path=/etc/apache2/sites-enabled/{{ item }}.conf state=absent
+      with_items:
+       - "{{ domains }}"
+
+
+#   - name: stop apache2
+#     service: name=apache2 state=stopped
+
+#   - name: restart apache2
+#     service: name=apache2 state=started
+
+#   - name: restart apache2
+#     service: name=apache2 state=restarted
+
+  handlers:
+    - name: restart apache2
+      service: name=apache2 state=restarted
+
+    

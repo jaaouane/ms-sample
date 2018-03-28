@@ -1,0 +1,22 @@
+[Unit]
+Description=Service ms-sample
+Requires=docker.service
+
+[Service]
+User=root
+Restart=always
+
+
+# TODO modifier le chemin projet
+# En savoir plus : voir le role 'roles/arborescence' pour la création du lien symbolique 'config'
+Environment="COMPOSE_FILE=/applis/ms-sample/config/docker-compose.yml"
+
+
+ExecStartPre=-/usr/local/bin/docker-compose -f ${COMPOSE_FILE} stop
+ExecStartPre=-/usr/local/bin/docker-compose -f ${COMPOSE_FILE} rm -fv
+ExecStart=/usr/local/bin/docker-compose -f ${COMPOSE_FILE}  up
+ExecStop=/usr/local/bin/docker-compose -f ${COMPOSE_FILE}  stop
+ExecReload=/usr/local/bin/docker-compose -f ${COMPOSE_FILE} restart
+
+[Install]
+WantedBy=multi-user.target

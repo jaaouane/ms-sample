@@ -1,0 +1,8 @@
+---
+
+# HANDLER pour redemarrer le service
+
+- name: restart ms-sample.service
+  shell: systemctl is-enabled ms-sample.service && systemctl stop ms-sample.service ; systemctl daemon-reload && systemctl enable ms-sample.service && systemctl restart ms-sample.service
+  args:
+    executable: /bin/bash
