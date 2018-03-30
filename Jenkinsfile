@@ -115,12 +115,18 @@ node {
        }
     }
 
-   
+
+    stage ('docker push') {  
+       dockerlogin('docker-registry-credentials')
+       dockerPush('1906198', 'registry', 'latest')
+    }
+
+   /*
     stage ('docker compose') {  
        sh "docker-compose up -d";
     }
     
-    /*
+    
     demarrer sonarQube sur la machine
     stage('SonarQube analysis') {
 	 // requires SonarQube Scanner 2.8+
@@ -154,5 +160,21 @@ def updateCompose2(projectName, pathList, imgVersion){
                 def targetPath = pathList[i]
 		sh "sed -i 's;${projectName}/${targetPath}:.*;${projectName}/${targetPath}:${imgVersion};g' docker-compose.yml";
         }
+
+}
+
+
+def dockerlogin(credentialsId){
+
+    withCredentials([usernamePassword(credentialsId: "${credentialsId}", passwordVariable: 'password', usernameVariable: 'username')]) {
+       sh "docker login -u=${username} -p=${password}"
+    }
+}
+
+def dockerPush(registryUserName, image, tag){
+    
+     docker.withRegistry("https://docker.io/") {
+       docker.image("${registryUserName}/${image}:${tag}").push()
+    }
 
 }
