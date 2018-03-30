@@ -117,8 +117,9 @@ node {
 
 
     stage ('docker push') {  
+       sh "docker tag ms-sample/products-ms:latest 1906198/products-ms:latest";
        dockerlogin('docker-registry-credentials')
-       dockerPush('1906198', 'registry', 'latest')
+       dockerPush('1906198', 'products-ms', 'latest')
     }
 
    /*
