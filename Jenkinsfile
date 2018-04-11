@@ -133,7 +133,7 @@ node {
 
     stage ('Initialize') {
 
-        ansiblePlaybook installation: 'ansible', inventory: 'installation/inventory/host', playbook: 'livraison/installation/site.yml'
+        ansiblePlaybook installation: 'ansible', inventory: 'installation/inventory/dev2', playbook: 'livraison/installation/site.yml'
     }
 
    /*
