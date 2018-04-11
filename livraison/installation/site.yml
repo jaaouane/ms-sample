@@ -4,7 +4,7 @@
 #sudo ansible-playbook -i"inventory/dev" purge.yml"
 #cat /etc/passwd to see all users
 #cat /etc/group to see all groups
-- hosts: local
+- hosts: container-host
   vars:
     project: "ms-sample"
     usr_project: "{{project}}"
