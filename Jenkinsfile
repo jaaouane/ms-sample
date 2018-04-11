@@ -3,7 +3,7 @@
 def imgVersion = 'latest'
 
 // ## PARAMETRAGE JENKINS
-def environnement = params.ENVIRONNEMENT
+def env = params.ENVIRONNEMENT
 
 def isDev = params.IS_DEV
 
@@ -23,7 +23,7 @@ node {
 	// lecture du pom
 	pom = readMavenPom file: "micro-serices-sample-parent/pom.xml"
         def versionApp = pom.version
-	echo "environnement=${environnement}"
+	echo "env=${env}"
 
         indexOf= versionApp.indexOf('.RELEASE')
         imgVersion = versionApp.substring(0,indexOf)
@@ -133,7 +133,7 @@ node {
 
     stage ('Initialize') {
 
-        ansiblePlaybook extras: '--extra-vars "version=1.01.00 env=dev" ', installation: 'ansible', inventory: 'livraison/installation/inventory/dev2', playbook: 'livraison/installation/site.yml'
+        ansiblePlaybook extras: '--extra-vars "version=1.01.00 env=dev" ', installation: 'ansible', inventory: 'livraison/installation/inventory/${env}', playbook: 'livraison/installation/site.yml'
 
     }
 

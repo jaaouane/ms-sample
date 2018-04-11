@@ -1,3 +1,0 @@
-[container-host]
-172.28.0.1 ansible_user=thales  ansible_become=yes 
-
