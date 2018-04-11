@@ -7,6 +7,8 @@ def environnement = params.ENVIRONNEMENT
 
 def isDev = params.IS_DEV
 
+def dockerHubId ='1906198'
+
 node { 
     
     echo 'Hello World' 
@@ -117,11 +119,15 @@ node {
 
 
     stage ('docker push') {  
-       sh "docker tag ms-sample/products-ms:latest 1906198/products-ms:latest";
-       sh "docker tag ms-sample/shop-ms:latest 1906198/shop-ms:latest";
+      
        dockerlogin('docker-registry-credentials')
-       dockerPush('1906198', 'products-ms', 'latest')
-       dockerPush('1906198', 'shop-ms', 'latest')
+
+       pathList = ['config-server','registry']
+       for(int i = 0; i < pathList.size(); i++){
+	    def targetPath = pathList[i]
+	     sh "docker tag ms-sample/${targetPath}:latest 1906198/${targetPath}:latest";
+             dockerPush(${dockerHubId}, ${targetPath}, 'latest')
+	}
     }
 
     stage ('Initialize') {
@@ -154,11 +160,11 @@ node {
 def dockerBuild2(projectName, pathList, imgVersion, isLatest){
 
 	for(int i = 0; i < pathList.size(); i++){
-		def targetPath = pathList[i]
-		docker.build("${projectName}/${targetPath}:${imgVersion}","./${targetPath}")
-                if(isLatest) {
-                sh "docker tag ${projectName}/${targetPath}:${imgVersion} ${projectName}/${targetPath}:latest"
-                }
+	    def targetPath = pathList[i]
+	    docker.build("${projectName}/${targetPath}:${imgVersion}","./${targetPath}")
+	    if(isLatest) {
+	       sh "docker tag ${projectName}/${targetPath}:${imgVersion} ${projectName}/${targetPath}:latest"
+	    }
 	}
 
 }
