@@ -117,7 +117,7 @@ node {
        }
     }
 
-
+    /*
     stage ('docker push') {  
       
        dockerlogin('docker-registry-credentials')
@@ -129,10 +129,11 @@ node {
              dockerPush(dockerHubId, targetPath, 'latest')
 	}
     }
+     */
 
     stage ('Initialize') {
 
-        ansiblePlaybook installation: 'ansible', inventory: 'inventory/host', playbook: 'site.yml'
+        ansiblePlaybook installation: 'ansible', inventory: 'installation/inventory/host', playbook: 'livraison/installation/site.yml'
     }
 
    /*
