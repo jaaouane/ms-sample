@@ -131,17 +131,13 @@ node {
     }
      */
 
-    stage ('Initialize') {
-
-        ansiblePlaybook installation: 'ansible', inventory: 'livraison/installation/inventory/${env}', playbook: 'livraison/installation/site.yml', extraVars: [  version: '01.00.00',   env:env ]
+    stage ('deploy') {
+        def inventoryFile= "livraison/installation/inventory/${env}"
+        ansiblePlaybook installation: 'ansible', inventory: inventoryFile, playbook: 'livraison/installation/site.yml', extraVars: [  version: '01.00.00',   env:env ]
 
     }
 
-   /*
-    stage ('docker compose') {  
-       sh "docker-compose up -d";
-    }
-    
+   /*  
     
     demarrer sonarQube sur la machine
     stage('SonarQube analysis') {

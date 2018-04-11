@@ -23,6 +23,10 @@ node {
      stage ('build docker') {  
          docker.build("ms-app:1.0")
      }
+
+     stage ('docker compose') {  
+       sh "docker-compose up -d";
+    }
 }
 
 
