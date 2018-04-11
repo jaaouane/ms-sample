@@ -16,6 +16,7 @@ RUN /usr/local/bin/install-plugins.sh \
   maven-plugin \
   pipeline-utility-steps \
   ansible \
+  ansicolor \
   sonar
 
 

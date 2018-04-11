@@ -1,6 +1,6 @@
 @Library('my-shared-library') _
 
-def imgVersion = 'latest'
+def imageVersion = 'latest'
 
 // ## PARAMETRAGE JENKINS
 def env = params.ENVIRONNEMENT
@@ -26,8 +26,8 @@ node {
 	echo "env=${env}"
 
         indexOf= versionApp.indexOf('.RELEASE')
-        imgVersion = versionApp.substring(0,indexOf)
-	echo "imgVersion=${imgVersion}"
+        imageVersion = versionApp.substring(0,indexOf)
+	echo "imageVersion=${imageVersion}"
      
         if(isDev){
           echo "dev"
@@ -63,15 +63,16 @@ node {
     
     stage ('build docker') { 
         
-        /*
+        
         dockerBuild {
 	     projectName = 'ms-sample'
 	     path = ['config-server','registry','shop-ms','products-ms']
-	     imgVersion = imgVersion
+	     imgVersion = imageVersion
 	}
-        */
-        
+       
+        /*
 	dockerBuild2('ms-sample',['config-server','registry','shop-ms','products-ms'], imgVersion, true)
+        */
     }
 
    
@@ -133,7 +134,9 @@ node {
 
     stage ('deploy') {
         def inventoryFile= "livraison/installation/inventory/${env}"
-        ansiblePlaybook installation: 'ansible', inventory: inventoryFile, playbook: 'livraison/installation/site.yml', extraVars: [  version: '01.00.00',   env:env ]
+        wrap([$class: 'AnsiColorBuildWrapper', colorMapName: "xterm"]) {        
+              ansiblePlaybook installation: 'ansible', inventory: inventoryFile, playbook: 'livraison/installation/site.yml', extraVars: [  version: '01.00.00',   env:env ]
+        }
 
     }
 
