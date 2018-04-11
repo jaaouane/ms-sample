@@ -133,7 +133,7 @@ node {
 
     stage ('Initialize') {
 
-        ansiblePlaybook extras: '--extra-vars "version=1.01.00 env=dev" ', installation: 'ansible', inventory: 'livraison/installation/inventory/${env}', playbook: 'livraison/installation/site.yml'
+        ansiblePlaybook installation: 'ansible', inventory: 'livraison/installation/inventory/${env}', playbook: 'livraison/installation/site.yml', extraVars: [  version: '01.00.00',   env:env ]
 
     }
 
