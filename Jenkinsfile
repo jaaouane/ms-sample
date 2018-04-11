@@ -126,7 +126,7 @@ node {
        for(int i = 0; i < pathList.size(); i++){
 	    def targetPath = pathList[i]
 	     sh "docker tag ms-sample/${targetPath}:latest 1906198/${targetPath}:latest";
-             dockerPush(${dockerHubId}, ${targetPath}, 'latest')
+             dockerPush(dockerHubId, targetPath, 'latest')
 	}
     }
 
