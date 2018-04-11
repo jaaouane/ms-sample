@@ -24,19 +24,25 @@
 
 *  dans la configuration du projet: ajouter un git parameter: GIT_BRANCH dans : This project is parameterized
 
+*  ajouter dans Ansible installations avec le nom ansible
+
+*  se connecter dans le conatiner via docker exec -it jenkins_blueocean bash
+
+	- ssh-keygen
+
+        - ssh-copy-id -i ~/.ssh/id_rsa.pub thales@172.28.0.1 et saisir le mot de passe
 
 # sonar
 
-	*  install sonar qube plugin
+*  install sonar qube plugin
 
-	*  download sonar qube and run the server 
+*  download sonar qube and run the server 
 
-	*  download sonar scanner 
+*  download sonar scanner 
 
-	*  configure tool configuration
+*  configure tool configuration
 
-	*  replace use_embedded_jre=true by false in sonar-scanner.sh
-
+*  replace use_embedded_jre=true by false in sonar-scanner.sh
 
 *  see this https://stackoverflow.com/questions/24319662/from-inside-of-a-docker-container-how-do-i-connect-to-the-localhost-of-the-mach
 
