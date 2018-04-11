@@ -10,8 +10,9 @@ services:
     volumes:
      - "/applis/ms-sample/logs/config-server:/applis/ms-sample/logs/config-server"
      - "/var/run/docker.sock:/var/run/docker.sock" 
+#    - "/usr/bin/ansible:/usr/bin/ansible" 
      - "/opt/apache-maven-3.3.9:/opt/apache-maven-3.3.9"
      - "/home/thales/dev-tools/sonar-scanner-3.0.3.778-linux:/opt/sonar-scanner"
-     - "/home/thales/jenkins2:/var/jenkins_home"
+     - "/home/thales/jenkins:/var/jenkins_home"
     environment:
      - M2_HOME='/opt/apache-maven-3.3.9'

@@ -69,7 +69,7 @@ node {
 	}
         */
         
-	dockerBuild2('ms-sample',['config-server','registry','shop-ms','products-ms'], imgVersion)
+	dockerBuild2('ms-sample',['config-server','registry','shop-ms','products-ms'], imgVersion, true)
     }
 
    
@@ -118,8 +118,15 @@ node {
 
     stage ('docker push') {  
        sh "docker tag ms-sample/products-ms:latest 1906198/products-ms:latest";
+       sh "docker tag ms-sample/shop-ms:latest 1906198/shop-ms:latest";
        dockerlogin('docker-registry-credentials')
        dockerPush('1906198', 'products-ms', 'latest')
+       dockerPush('1906198', 'shop-ms', 'latest')
+    }
+
+    stage ('Initialize') {
+
+        ansiblePlaybook installation: 'ansible', inventory: 'inventory/host', playbook: 'site.yml'
     }
 
    /*
@@ -144,12 +151,14 @@ node {
 
 
 
-def dockerBuild2(projectName, pathList, imgVersion){
+def dockerBuild2(projectName, pathList, imgVersion, isLatest){
 
 	for(int i = 0; i < pathList.size(); i++){
 		def targetPath = pathList[i]
 		docker.build("${projectName}/${targetPath}:${imgVersion}","./${targetPath}")
+                if(isLatest) {
                 sh "docker tag ${projectName}/${targetPath}:${imgVersion} ${projectName}/${targetPath}:latest"
+                }
 	}
 
 }
