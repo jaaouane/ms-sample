@@ -68,6 +68,7 @@ node {
 	     projectName = 'ms-sample'
 	     path = ['config-server','registry','shop-ms','products-ms']
 	     imgVersion = imageVersion
+             isLatest = true
 	}
        
         /*
@@ -86,7 +87,7 @@ node {
 
        */
 
-       updateCompose2('ms-sample',['config-server','registry','shop-ms','products-ms'], imgVersion)
+       updateCompose2('ms-sample',['config-server','registry','shop-ms','products-ms'], imageVersion)
 
        sh "git config user.email 'jenkins@ajconsulting.com' "
        sh "git config user.name 'jenkins' "
@@ -96,7 +97,7 @@ node {
        
        if (change.toInteger() >0) {
            echo "commiter docker compose" 
-           sh "git commit -am 'update compose version to ${imgVersion}' ";
+           sh "git commit -am 'update compose version to ${imageVersion}' ";
        	   sh "git push origin HEAD:master";
            
           //withCredentials ne marche pas c pourquioi c'est commenté
