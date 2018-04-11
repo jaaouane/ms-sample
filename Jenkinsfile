@@ -62,32 +62,23 @@ node {
     }
     
     stage ('build docker') { 
-        
-        
+
         dockerBuild {
 	     projectName = 'ms-sample'
 	     path = ['config-server','registry','shop-ms','products-ms']
 	     imgVersion = imageVersion
              isLatest = true
 	}
-       
-        /*
-	dockerBuild2('ms-sample',['config-server','registry','shop-ms','products-ms'], imgVersion, true)
-        */
     }
 
    
     stage ('update compose') {  
-       /*
+
        updateCompose {
 	     projectName = 'ms-sample'
 	     path = ['config-server','registry','shop-ms','products-ms']
-             imgVersion = imgVersion
+             imgVersion = imageVersion
 	}
-
-       */
-
-       updateCompose2('ms-sample',['config-server','registry','shop-ms','products-ms'], imageVersion)
 
        sh "git config user.email 'jenkins@ajconsulting.com' "
        sh "git config user.name 'jenkins' "
@@ -156,30 +147,6 @@ node {
     */
 }
 
-
-
-
-def dockerBuild2(projectName, pathList, imgVersion, isLatest){
-
-	for(int i = 0; i < pathList.size(); i++){
-	    def targetPath = pathList[i]
-	    docker.build("${projectName}/${targetPath}:${imgVersion}","./${targetPath}")
-	    if(isLatest) {
-	       sh "docker tag ${projectName}/${targetPath}:${imgVersion} ${projectName}/${targetPath}:latest"
-	    }
-	}
-
-}
-
-
-def updateCompose2(projectName, pathList, imgVersion){
-
-	for(int i = 0; i < pathList.size(); i++) {
-                def targetPath = pathList[i]
-		sh "sed -i 's;${projectName}/${targetPath}:.*;${projectName}/${targetPath}:${imgVersion};g' docker-compose.yml";
-        }
-
-}
 
 
 def dockerlogin(credentialsId){
