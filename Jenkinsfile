@@ -7,7 +7,7 @@ def env = params.ENVIRONNEMENT
 
 def isDev = params.IS_DEV
 
-def dockerHubId ='1906198'
+def ajConsultingDockerHubId ='1906198'
 
 node { 
     
@@ -110,19 +110,20 @@ node {
        }
     }
 
-    /*
     stage ('docker push') {  
-      
-       dockerlogin('docker-registry-credentials')
 
-       pathList = ['config-server','registry']
-       for(int i = 0; i < pathList.size(); i++){
-	    def targetPath = pathList[i]
-	     sh "docker tag ms-sample/${targetPath}:latest ${dockerHubId}/${targetPath}:latest";
-             dockerPush(dockerHubId, targetPath, 'latest')
+       dockerlogin {
+	     credentialsId = 'docker-registry-credentials'
 	}
+
+        dockerPush {
+	     dockerHubId = ajConsultingDockerHubId
+             projectName = 'ms-sample'
+	     path = ['config-server','registry']
+             tag = 'latest'
+	}
+
     }
-     */
 
     stage ('deploy') {
         def inventoryFile= "livraison/installation/inventory/${env}"
@@ -148,18 +149,3 @@ node {
 }
 
 
-
-def dockerlogin(credentialsId){
-
-    withCredentials([usernamePassword(credentialsId: "${credentialsId}", passwordVariable: 'password', usernameVariable: 'username')]) {
-       sh "docker login -u=${username} -p=${password}"
-    }
-}
-
-def dockerPush(registryUserName, image, tag){
-    
-     docker.withRegistry("https://docker.io/") {
-       docker.image("${registryUserName}/${image}:${tag}").push()
-    }
-
-}
