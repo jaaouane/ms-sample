@@ -34,8 +34,7 @@ node {
         }
     }
     
-
-/*    
+   
     stage ('build') {
               
         echo "PATH = ${PATH}"
@@ -57,12 +56,12 @@ node {
     }
     
 
-*/
     stage ('purge docker imags') {  
         echo "purge docker imags";
 	sh "./purgeImages.sh";
     }
     
+
     stage ('build docker') { 
 
         dockerBuild {
@@ -112,7 +111,8 @@ node {
        }
     }
 
-/*
+
+
     stage ('docker push') {  
 
        dockerLogin {
@@ -128,7 +128,6 @@ node {
 
     }
 
-*/
 
     stage ('deploy') {
         def inventory = "livraison/installation/inventory/${env}"
