@@ -34,7 +34,8 @@ node {
         }
     }
     
-    
+
+/*    
     stage ('build') {
               
         echo "PATH = ${PATH}"
@@ -56,6 +57,7 @@ node {
     }
     
 
+*/
     stage ('purge docker imags') {  
         echo "purge docker imags";
 	sh "./purgeImages.sh";
