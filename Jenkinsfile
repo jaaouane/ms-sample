@@ -112,7 +112,7 @@ node {
 
     stage ('docker push') {  
 
-       dockerlogin {
+       dockerLogin {
 	     credentialsId = 'docker-registry-credentials'
 	}
 
@@ -148,4 +148,4 @@ node {
     */
 }
 
-
+	
