@@ -110,6 +110,7 @@ node {
        }
     }
 
+/*
     stage ('docker push') {  
 
        dockerLogin {
@@ -125,11 +126,15 @@ node {
 
     }
 
+*/
+
     stage ('deploy') {
-        def inventoryFile= "livraison/installation/inventory/${env}"
-        wrap([$class: 'AnsiColorBuildWrapper', colorMapName: "xterm"]) {        
-              ansiblePlaybook installation: 'ansible', inventory: inventoryFile, playbook: 'livraison/installation/site.yml', extraVars: [  version: '01.00.00',   env:env ]
-        }
+        def inventory = "livraison/installation/inventory/${env}"
+        deploy {
+	     inventoryFile = inventory
+             playbookFile = 'livraison/installation/site.yml'
+	     extraVars = [  version: '01.00.00',  env:env ]
+	}
 
     }
 
