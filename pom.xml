@@ -3,7 +3,7 @@
 
 	<groupId>ajconsulting.com.microservice.demo</groupId>
 	<artifactId>root</artifactId>
-	<version>1.0.4-SNAPSHOT</version>
+	<version>1.0.3-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<!-- Découpage en Modules -->
@@ -34,7 +34,7 @@
 				<version>1.9.5</version>
 				<configuration>
 					<username>aymen.jaaouane@gmail.com</username>
-					<password>XY32beta</password>
+					<password>XZ32beta</password>
 				</configuration>
 			</plugin>
 
@@ -44,7 +44,7 @@
 				<version>2.5.3</version>
 				<configuration>
 					<autoVersionSubmodules>true</autoVersionSubmodules>
-					<tagNameFormat>ms-sample-@{project.version}</tagNameFormat>
+					<tagNameFormat>ms-sample@{project.version}</tagNameFormat>
 				</configuration>
 			</plugin>
 		</plugins>
