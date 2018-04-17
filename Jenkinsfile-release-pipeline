@@ -1,0 +1,48 @@
+// Pipeline qui va gérer la montée de version du projet et la création d'un TAG pour la Recette
+// 
+// En entrée, pour lancer le Build, il faudra renseigner :
+// - la BRANCH ou origin/master (par défaut) à partir de laquelle un TAG au format AA.BB.CC va être créé dans Gitlab.
+// 
+// En sortie, les éléments suivants seront créés :
+// - une nouvelle version MAVEN de développement AA.BB.{CC+1}-SNAPSHOT sur la BRANCH sélectionnée.
+// - un nouveau TAG en version AA.BB.CC créé à partir de la BRANCH sélectionnée.
+// - une nouvelle image Docker par composant applicatif en version AA.BB.CC dans le registre Docker.
+// 
+// Les développeurs développeront avec cette nouvelle version MAVEN de développement sur la BRANCH sélectionnée.
+
+node { 
+    
+    echo 'pipeline va creer une release' 
+    
+    stage ('Checkout scm') {
+        def result = checkout scm
+        
+        // Additional Behaviours Check out to specific local branch
+        // disable lightweight checkout to work this
+	echo "branche = ${result['GIT_BRANCH']}"
+
+	// lecture du pom
+	pom = readMavenPom file: "micro-serices-sample-parent/pom.xml"
+        def versionApp = pom.version
+	echo "env=${env}"
+
+        indexOf= versionApp.indexOf('.SNAPSHOT')
+        imageVersion = versionApp.substring(0,indexOf)
+	echo "imageVersion=${imageVersion}"
+     
+        if(isDev){
+          echo "dev"
+        }
+    }
+
+    stage ('Maven release plugin') {
+
+      withMaven(maven: 'maven3'){
+			// Run maven release plugin
+			sh "mvn --batch-mode release:prepare -Dresume=false"
+		}
+       
+    }
+
+
+}
