@@ -3,7 +3,7 @@
 
 	<groupId>ajconsulting.com.microservice.demo</groupId>
 	<artifactId>root</artifactId>
-	<version>1.0.4</version>
+	<version>1.0.5-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<!-- Découpage en Modules -->
@@ -22,7 +22,7 @@
 			: https://maven.apache.org/scm/maven-scm-plugin/examples/bootstrapping-with-pom.html -->
 		<connection>scm:git:https://github.com/jaaouane/ms-sample.git</connection>
 		<developerConnection>scm:git:https://github.com/jaaouane/ms-sample.git</developerConnection>
-		<tag>ms-sample1.0.4</tag>
+		<tag>HEAD</tag>
 	</scm>
 
 
