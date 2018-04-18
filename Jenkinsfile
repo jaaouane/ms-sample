@@ -81,32 +81,20 @@ node {
              imgVersion = imageVersion
 	}
 
-       sh "git config user.email 'jenkins@ajconsulting.com' "
-       sh "git config user.name 'jenkins' "
        
        def change = sh returnStdout: true, script: 'git status --short | wc -l'
        echo "change= ${change}" 
        
        if (change.toInteger() >0) {
-           echo "commiter docker compose" 
-           sh "git commit -am 'update compose version to ${imageVersion}' ";
-       	   //sh "git push origin HEAD:master";
-           
-          //withCredentials ne marche pas c pourquioi c'est commenté
-          // pour contourner le probléme , j'ai fait docker exec sur le conteneur jenkins pour se connecter au conteneur et j'ai lancé la commande git config credential.helper store
-          // le login et mot de passe sont enregistrés dans le conteneur, ils seront plus demandés 
-          
-           withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'git-credentials', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD']]) {
 
-		    sh("git push https://aymen.jaaouane%40gmail.com:${GIT_PASSWORD}@github.com/jaaouane/ms-sample.git --all")
+           def message = "update compose version to ${imageVersion}"
+           gitCommit {
+	     commitMessage = message
 	   }
-          
-           /*
-	   withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'git-credentials', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD']]) { 
-                  
-                    sh('URL=`git config --get remote.origin.url | sed \"s;://;://${GIT_USERNAME}:${GIT_PASSWORD}@;g\"` && git push --set-upstream ${URL} --all' )    
-           }
-           */
+       	   
+           gitPush {
+	     gitCredentialsId = 'git-credentials'
+	   }
           
        }
     }

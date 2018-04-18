@@ -22,7 +22,13 @@
 
 *  Global Tool Configuration: ajouter Maven installation avec le nom maven3 
 
-*  dans la configuration du projet: ajouter un git parameter: GIT_BRANCH dans : This project is parameterized
+*  configuration du job
+
+	*  onglet GENERAL: dans la configuration du projet: ajouter un git parameter: GIT_BRANCH dans : This project is parameterized
+
+	*  onglet pipeline: Branches to build:$GIT_BRANCH
+
+	*  onglet pipeline: Pipeline: Additional Behaviours: ajouter checkout to specific local branch: sinon jenkins sera en DEATCHED HEAD, comme ca jenkins sera sur la branche séléctionné.
 
 *  ajouter dans Ansible installations avec le nom ansible
 
