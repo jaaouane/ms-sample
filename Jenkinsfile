@@ -9,8 +9,6 @@ def env = params.ENVIRONNEMENT
 
 def isDev = params.IS_DEV
 
-def ajConsultingDockerHubId ='1906198'
-
 node { 
     
     echo 'Hello World' 

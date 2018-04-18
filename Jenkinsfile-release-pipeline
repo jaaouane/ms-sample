@@ -16,6 +16,8 @@
 // imageVersion sera passé en parametre de updateCompose: imgVersion = imageVersion
 def imageVersion = 'latest'
 
+def ajConsultingDockerHubId ='1906198'
+
 node { 
     
     echo 'Hello World' 
@@ -70,8 +72,8 @@ node {
 
       try{
       withMaven(maven: 'maven3'){
-			// Run maven release plugin
-			sh "mvn --batch-mode release:prepare -Dresume=false"
+		// Run maven release plugin
+		sh "mvn --batch-mode release:prepare -Dresume=false"
 		}
       }catch (e) {
 	     		
