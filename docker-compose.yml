@@ -1,7 +1,7 @@
 version: '2.0'
 services:
   config-server:
-    image: ms-sample/config-server:latest
+    image: ms-sample/config-server:1.0.7
     container_name: ms-sample-config-server
     ports:
      - "8888:8888"
@@ -11,7 +11,7 @@ services:
      - mssample-network
 
   registry:
-    image: ms-sample/registry:latest
+    image: ms-sample/registry:1.0.7
     container_name: ms-sample-registry
     ports:
      - "8761:8761"
@@ -23,7 +23,7 @@ services:
      - mssample-network
 
   products-ms:
-    image: ms-sample/products-ms:latest
+    image: ms-sample/products-ms:1.0.7
     container_name: ms-sample-products-ms
     ports:
      - "8080:8080"
@@ -35,7 +35,7 @@ services:
      - mssample-network
 
   shop-ms:
-    image: ms-sample/shop-ms:latest
+    image: ms-sample/shop-ms:1.0.7
     container_name: ms-sample-shop-ms
     env_file:
         - env/env_shop.conf
