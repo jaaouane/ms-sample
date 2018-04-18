@@ -32,10 +32,6 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-scm-plugin</artifactId>
 				<version>1.9.5</version>
-				<configuration>
-					<username>aymen.jaaouane@gmail.com</username>
-					<password>XZ32beta</password>
-				</configuration>
 			</plugin>
 
 			<plugin>
