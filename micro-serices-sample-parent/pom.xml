@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>ajconsulting.com.microservice.demo</groupId>
 	<artifactId>micro-serices-sample-parent</artifactId>
-	<version>1.0.8-SNAPSHOT</version>
+	<version>1.0.8</version>
 	<packaging>pom</packaging>
 
 	<parent>
@@ -49,6 +49,6 @@
 	</build>
 
   <scm>
-    <tag>ms-sample1.0.7</tag>
+    <tag>ms-sample-1.0.8</tag>
   </scm>
 </project>
