@@ -12,6 +12,8 @@
 
 @Library('my-shared-library') _
 
+// Les variables qui seront passes a des libs pipeline doivent etre globales
+// imageVersion sera passé en parametre de updateCompose: imgVersion = imageVersion
 def imageVersion = 'latest'
 
 node { 
@@ -108,36 +110,38 @@ node {
        
     }
 
-
-
-    /*  
-
-    stage ('build docker') { 
-
-        dockerBuild {
-	     projectName = 'ms-sample'
-	     path = ['config-server','registry','shop-ms','products-ms']
-	     imgVersion = imageVersion
-             isLatest = true
-	}
-    }
-
-
-    stage ('docker push') {  
-
-       dockerLogin {
-	     credentialsId = 'docker-registry-credentials'
+        // Construction des war
+	stage ('Build') {
+		// On ne push sur le registre Docker INCA que des TAG
+                echo "Checkout tag ${imageVersion}"
+	        sh "git checkout tags/ms-sample-${imageVersion}"
+		buildModule{
+	        }
 	}
 
-        dockerPush {
-	     dockerHubId = ajConsultingDockerHubId
-             projectName = 'ms-sample'
-	     path = ['config-server','registry']
-             tag = imageVersion
-	}
+        stage ('build docker') { 
 
-    }
+		dockerBuild {
+		     projectName = 'ms-sample'
+		     path = ['config-server','registry','shop-ms','products-ms']
+		     imgVersion = imageVersion
+		}
+        }
 
-    */
+       stage ('docker push') {  
+
+	       dockerLogin {
+		     credentialsId = 'docker-registry-credentials'
+		}
+
+		dockerPush {
+		     dockerHubId = ajConsultingDockerHubId
+		     projectName = 'ms-sample'
+		     path = ['config-server']
+		     tag = imageVersion
+		}
+
+      }
+
 }
 

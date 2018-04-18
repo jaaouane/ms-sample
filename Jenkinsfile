@@ -36,7 +36,7 @@ node {
         }
     }
     
-    /*
+
     stage ('build') {
               
         echo "PATH = ${PATH}"
@@ -56,7 +56,7 @@ node {
            ignoreFailure = true                                     
        }                                            
     }
-    */
+
 
     stage ('purge docker imags') {  
         echo "purge docker imags";
@@ -69,12 +69,11 @@ node {
         dockerBuild {
 	     projectName = 'ms-sample'
 	     path = ['config-server','registry','shop-ms','products-ms']
-	     imgVersion = imageVersion
-             isLatest = true
+	     imgVersion = 'latest'
 	}
     }
 
-   
+    /* 
     stage ('update compose') {  
 
        updateCompose {
@@ -102,7 +101,7 @@ node {
     }
 
 
-    /*  
+     
     stage ('docker push') {  
 
        dockerLogin {
