@@ -98,7 +98,7 @@ node {
           
            withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'git-credentials', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD']]) {
 
-		    sh("git push https://aymen.jaaouane%40gmail.com:${env.GIT_PASSWORD}@https://github.com/jaaouane/ms-sample.git --all")
+		    sh("git push https://aymen.jaaouane%40gmail.com:${GIT_PASSWORD}@https://github.com/jaaouane/ms-sample.git --all")
 	   }
           
            /*
