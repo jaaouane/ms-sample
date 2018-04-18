@@ -1,3 +1,5 @@
+// Pipeline qui va deployer une version sur la DEV
+
 @Library('my-shared-library') _
 
 def imageVersion = 'latest'

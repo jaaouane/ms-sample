@@ -10,9 +10,10 @@
 // 
 // Les développeurs développeront avec cette nouvelle version MAVEN de développement sur la BRANCH sélectionnée.
 
+
 node { 
     
-    echo 'pipeline va creer une release' 
+    echo 'Hello World' 
     
     stage ('Checkout scm') {
         def result = checkout scm
@@ -26,7 +27,7 @@ node {
         def versionApp = pom.version
 	echo "env=${env}"
 
-        indexOf= versionApp.indexOf('.SNAPSHOT')
+        indexOf= versionApp.indexOf('-SNAPSHOT')
         imageVersion = versionApp.substring(0,indexOf)
 	echo "imageVersion=${imageVersion}"
      
@@ -34,8 +35,46 @@ node {
           echo "dev"
         }
     }
+    
 
-    stage ('Maven release plugin') {
+    stage ('build docker') { 
+
+        dockerBuild {
+	     projectName = 'ms-sample'
+	     path = ['config-server','registry','shop-ms','products-ms']
+	     imgVersion = imageVersion
+             isLatest = true
+	}
+    }
+
+   
+    stage ('update compose to tag with new version') {  
+
+       updateCompose {
+	     projectName = 'ms-sample'
+	     path = ['config-server','registry','shop-ms','products-ms']
+             imgVersion = imageVersion
+	}
+
+       
+       def change = sh returnStdout: true, script: 'git status --short | wc -l'
+       echo "change= ${change}" 
+       
+       if (change.toInteger() >0) {
+
+           def message = "update compose version to ${imageVersion}"
+           gitCommit {
+	     commitMessage = message
+	   }
+       	   
+           gitPush {
+	     gitCredentialsId = 'git-credentials'
+	   }
+          
+       }
+    }
+
+     stage ('Maven release plugin') {
 
       withMaven(maven: 'maven3'){
 			// Run maven release plugin
@@ -45,4 +84,49 @@ node {
     }
 
 
+    stage ('update compose to latest') {  
+
+       updateCompose {
+	     projectName = 'ms-sample'
+	     path = ['config-server','registry','shop-ms','products-ms']
+             imgVersion = 'latest'
+	}
+
+       
+       def change = sh returnStdout: true, script: 'git status --short | wc -l'
+       echo "change= ${change}" 
+       
+       if (change.toInteger() >0) {
+
+           def message = "update compose version to latest"
+           gitCommit {
+	     commitMessage = message
+	   }
+       	   
+           gitPush {
+	     gitCredentialsId = 'git-credentials'
+	   }
+          
+       }
+    }
+
+
+    /*  
+    stage ('docker push') {  
+
+       dockerLogin {
+	     credentialsId = 'docker-registry-credentials'
+	}
+
+        dockerPush {
+	     dockerHubId = ajConsultingDockerHubId
+             projectName = 'ms-sample'
+	     path = ['config-server','registry']
+             tag = imageVersion
+	}
+
+    }
+
+    */
 }
+
