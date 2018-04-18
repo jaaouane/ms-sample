@@ -10,4 +10,5 @@ LOCAL.properties
 **/.settings
 ansible.log
 *local
-
+*.releaseBackup
+release.properties

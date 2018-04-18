@@ -65,39 +65,48 @@ node {
 
      stage ('Maven release plugin') {
 
+      try{
       withMaven(maven: 'maven3'){
 			// Run maven release plugin
 			sh "mvn --batch-mode release:prepare -Dresume=false"
 		}
+      }catch (e) {
+	     		
+		withMaven(maven: 'maven3') {
+			sh "mvn release:rollback"
+		}
+		throw e;
+				
+       } 
+        finally {
+
+		updateCompose {
+		     projectName = 'ms-sample'
+		     path = ['config-server','registry','shop-ms','products-ms']
+		     imgVersion = 'latest'
+	       }
+
        
-    }
-
-
-    stage ('update compose to latest') {  
-
-       updateCompose {
-	     projectName = 'ms-sample'
-	     path = ['config-server','registry','shop-ms','products-ms']
-             imgVersion = 'latest'
-	}
-
+	       def change = sh returnStdout: true, script: 'git status --short | wc -l'
+	       echo "change= ${change}" 
        
-       def change = sh returnStdout: true, script: 'git status --short | wc -l'
-       echo "change= ${change}" 
-       
-       if (change.toInteger() >0) {
+	       if (change.toInteger() >0) {
 
-           def message = "update compose version to latest"
-           gitCommit {
-	     commitMessage = message
-	   }
-       	   
-           gitPush {
-	     gitCredentialsId = 'git-credentials'
-	   }
-          
+		   def message = "update compose version to latest"
+		   gitCommit {
+		     commitMessage = message
+		   }
+	       	   
+		   gitPush {
+		     gitCredentialsId = 'git-credentials'
+		   }
+		  
+	       }
+
        }
+       
     }
+
 
 
     /*  
