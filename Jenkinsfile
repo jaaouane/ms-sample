@@ -34,7 +34,7 @@ node {
         }
     }
     
-   
+    /*
     stage ('build') {
               
         echo "PATH = ${PATH}"
@@ -54,7 +54,7 @@ node {
            ignoreFailure = true                                     
        }                                            
     }
-    
+    */
 
     stage ('purge docker imags') {  
         echo "purge docker imags";
