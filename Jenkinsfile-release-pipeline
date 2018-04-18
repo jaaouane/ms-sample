@@ -12,6 +12,8 @@
 
 @Library('my-shared-library') _
 
+def imageVersion = 'latest'
+
 node { 
     
     echo 'Hello World' 
@@ -30,7 +32,6 @@ node {
 
         indexOf= versionApp.indexOf('-SNAPSHOT')
         imageVersion = versionApp.substring(0,indexOf)
-	echo "imageVersion=${imageVersion}"
      
     }
     
