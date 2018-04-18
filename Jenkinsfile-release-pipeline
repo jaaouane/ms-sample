@@ -37,16 +37,6 @@ node {
     }
     
 
-    stage ('build docker') { 
-
-        dockerBuild {
-	     projectName = 'ms-sample'
-	     path = ['config-server','registry','shop-ms','products-ms']
-	     imgVersion = imageVersion
-             isLatest = true
-	}
-    }
-
    
     stage ('update compose to tag with new version') {  
 
@@ -112,6 +102,18 @@ node {
 
 
     /*  
+
+    stage ('build docker') { 
+
+        dockerBuild {
+	     projectName = 'ms-sample'
+	     path = ['config-server','registry','shop-ms','products-ms']
+	     imgVersion = imageVersion
+             isLatest = true
+	}
+    }
+
+
     stage ('docker push') {  
 
        dockerLogin {
