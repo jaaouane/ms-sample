@@ -31,9 +31,6 @@ node {
         imageVersion = versionApp.substring(0,indexOf)
 	echo "imageVersion=${imageVersion}"
      
-        if(isDev){
-          echo "dev"
-        }
     }
     
 
