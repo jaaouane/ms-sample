@@ -25,7 +25,7 @@ node {
         def versionApp = pom.version
 	echo "env=${env}"
 
-        indexOf= versionApp.indexOf('.RELEASE')
+        indexOf= versionApp.indexOf('-SNAPSHOT')
         imageVersion = versionApp.substring(0,indexOf)
 	echo "imageVersion=${imageVersion}"
      
@@ -112,7 +112,7 @@ node {
     }
 
 
-
+    /*  
     stage ('docker push') {  
 
        dockerLogin {
@@ -139,7 +139,7 @@ node {
 
     }
 
-   /*  
+   
     
     demarrer sonarQube sur la machine
     stage('SonarQube analysis') {

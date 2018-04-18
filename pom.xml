@@ -18,7 +18,7 @@
 
 	<scm>
 		<url>https://github.com/jaaouane/ms-sample</url>
-		<!-- Configuration de l'authentification nécessite l'accès au slave mutualisé 
+		<!-- Configuration de l'authentification nécessite l'accès au settings.xml
 			: https://maven.apache.org/scm/maven-scm-plugin/examples/bootstrapping-with-pom.html -->
 		<connection>scm:git:https://github.com/jaaouane/ms-sample.git</connection>
 		<developerConnection>scm:git:https://github.com/jaaouane/ms-sample.git</developerConnection>
