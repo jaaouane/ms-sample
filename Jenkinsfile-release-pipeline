@@ -38,6 +38,7 @@ node {
    
     stage ('update compose to tag with new version') {  
 
+       echo "imageVersion=${imageVersion}"
        updateCompose {
 	     projectName = 'ms-sample'
 	     path = ['config-server','registry','shop-ms','products-ms']
