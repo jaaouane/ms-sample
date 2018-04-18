@@ -10,6 +10,7 @@
 // 
 // Les développeurs développeront avec cette nouvelle version MAVEN de développement sur la BRANCH sélectionnée.
 
+@Library('my-shared-library') _
 
 node { 
     
